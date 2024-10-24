@@ -1,0 +1,102 @@
+$date
+	Thu Oct 24 16:56:42 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module binary_BCD_tb $end
+$var wire 28 ! BCD_code [27:0] $end
+$var reg 12 " mult_result [11:0] $end
+$var reg 1 # reset $end
+$var reg 1 $ valid $end
+$scope module uut $end
+$var wire 28 % BCD_code [27:0] $end
+$var wire 12 & mult_result [11:0] $end
+$var wire 1 # reset $end
+$var wire 1 $ valid $end
+$var reg 1 ' ready $end
+$var reg 28 ( shift_reg [27:0] $end
+$var integer 32 ) i [31:0] $end
+$upscope $end
+$scope task display_BCD $end
+$var reg 28 * BCD [27:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+bx *
+bx )
+b0 (
+0'
+bx &
+b0 %
+0$
+1#
+bx "
+b0 !
+$end
+#10
+1'
+b1100 )
+b1000101000000000000 !
+b1000101000000000000 %
+b1000101000000000000 (
+1$
+b101101 "
+b101101 &
+0#
+#20
+0$
+#70
+b1100 )
+b100100011000000000000 !
+b100100011000000000000 %
+b100100011000000000000 (
+1$
+b1111011 "
+b1111011 &
+b1000101000000000000 *
+#80
+0$
+#130
+b1100 )
+b100110011001000000000000 !
+b100110011001000000000000 %
+b100110011001000000000000 (
+1$
+b1111100111 "
+b1111100111 &
+b100100011000000000000 *
+#140
+0$
+#190
+b1100 )
+b10000001000111000000000000 !
+b10000001000111000000000000 %
+b10000001000111000000000000 (
+1$
+b11111111111 "
+b11111111111 &
+b100110011001000000000000 *
+#200
+0$
+#250
+b1100 )
+b1001010110000000000000 !
+b1001010110000000000000 %
+b1001010110000000000000 (
+1$
+b100000000 "
+b100000000 &
+b10000001000111000000000000 *
+#260
+0$
+#310
+b1001010110000000000000 *
