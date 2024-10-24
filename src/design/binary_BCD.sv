@@ -2,6 +2,7 @@ module binary_BCD(
     input logic reset,
     input logic [11 : 0] mult_result,
     input logic valid,
+    output logic BCD_ready,
     output logic [27 : 0] BCD_code 
 );
     logic [27 : 0] shift_reg;
@@ -33,4 +34,5 @@ module binary_BCD(
     end
 
     assign BCD_code = shift_reg;
+    assign BCD_ready = ready;
 endmodule

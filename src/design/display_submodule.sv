@@ -10,6 +10,12 @@ module display_multiplexer(
     logic [1:0] current_display = 2'b0;               // Código del display activo
     logic [19:0] refresh_counter = 19'b0;             // Contador de refresco
 
+    always_comb begin
+        units = BCD_code[15 : 12];         // Extrae las unidades
+        tens = BCD_code[19 : 16];          // Extrae las decenas
+        hundreds = BCD_code[23 : 20];      // Extrae las centenas
+        thousands = BCD_code[27 : 24];     // Extrae los miles
+    end
 
     // Contador de refresco y selección de display
     always_ff @(posedge clk or posedge reset) begin
