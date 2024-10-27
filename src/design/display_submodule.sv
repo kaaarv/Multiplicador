@@ -23,29 +23,26 @@ module display_multiplexer(
     end
 
     always_comb begin
-        units = BCD_code[15 : 12];         // Extrae las unidades
-        tens = BCD_code[19 : 16];          // Extrae las decenas
-        hundreds = BCD_code[23 : 20];      // Extrae las centenas
-        thousands = BCD_code[27 : 24];     // Extrae los miles
+        extract_bcd(BCD_code);
     end
 
     always_comb begin
         case(current_display)
             2'b00: begin
                 display_select = 4'b1110;                   // Activa el display de unidades
-                segments = display_to_segments(units);
+                segments = display_to_segments(units);      // Cambia al dígito de las unidades
             end
             2'b01: begin
                 display_select = 4'b1101;                   // Activa el display de decenas
-                segments = display_to_segments(tens);
+                segments = display_to_segments(tens);       // Cambia al dígito de las decenas
             end
             2'b10: begin
                 display_select = 4'b1011;                   // Activa el display de centenas
-                segments = display_to_segments(hundreds);
+                segments = display_to_segments(hundreds);   // Cambia al dígito de las centenas
             end
             2'b11: begin
                 display_select = 4'b0111;                   // Activa el display de miles
-                segments = display_to_segments(thousands);
+                segments = display_to_segments(thousands);  // Cambia al dígito de los miles
             end
             default: begin
                 display_select = 4'b1111; 
@@ -69,4 +66,11 @@ module display_multiplexer(
             default: display_to_segments = 7'b0000000;
         endcase
     endfunction
+
+    task automatic extract_bcd(input logic [27:0] BCD_code);
+        units = BCD_code[15 : 12];
+        tens = BCD_code[19 : 16];
+        hundreds = BCD_code[23 : 20];
+        thousands = BCD_code[27 : 24];
+    endtask
 endmodule

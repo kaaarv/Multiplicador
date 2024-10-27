@@ -1,84 +1,78 @@
-`timescale 1ns / 1ps
-
 module display_multiplexer_tb;
+    logic clk;
+    logic reset;
+    logic [27:0] BCD_code;
+    logic [6:0] segments;
+    logic [3:0] display_select;
 
-    // Señales de entrada y salida
-    logic clk;   
-    logic reset;           
-    logic [27 : 0] BCD_code;     // Usamos BCD_code en lugar de sum_result  
-    logic [6 : 0] segments;        
-    logic [3 : 0] display_select;
-
-    // Instancia del módulo a probar
+    // Instancia del módulo display_multiplexer
     display_multiplexer uut (
         .clk(clk),
         .reset(reset),
-        .BCD_code(BCD_code),     // Asignamos BCD_code
+        .BCD_code(BCD_code),
         .segments(segments),
         .display_select(display_select)
     );
 
-    // Generación del reloj: Periodo de 10 unidades de tiempo (simuladas)
-    always #5 clk = ~clk; 
-
-    // Bloque inicial para la simulación
+    // Generador de reloj
     initial begin
-        // Inicializa las señales
         clk = 0;
+        forever #5 clk = ~clk; // Cambiar cada 5 unidades de tiempo
+    end
+
+    // Proceso de prueba
+    initial begin
+        // Inicializar señales
         reset = 1;
-        BCD_code = 28'b0;
+        BCD_code = 28'b0; // Inicializa en cero
+        #10;
+        reset = 0;
 
-        // Generar archivo VCD para análisis
-        $dumpfile("display_multiplexer.vcd");
-        $dumpvars(0, display_multiplexer_tb);
+        // Proporcionar un BCD_code de prueba
+        BCD_code = 28'b0001001000110100000000000000; // Ejemplo: 1234 en BCD
 
-        // Desactiva el reset después de 10 unidades de tiempo
-        #10 reset = 0;
+        // Ejecutar prueba por un tiempo para ver la salida
+        #200; // Espera suficiente tiempo para varios ciclos de visualización
 
-        // Prueba 1: Valor máximo (1998)
-        BCD_code = 28'b0001100110011000000000000000;   // BCD para 1998                   
-        #100000;  // Tiempo para procesar
-
-        // Mostrar resultados de la prueba 1
-        $display("Prueba 1: 1998");
+        // Mostrar valores en cada iteración
+        $display("------------Prueba 1------------");
         display_all_values(BCD_code);
+        #10000;
 
-        // Prueba 2: Valor 930
-        BCD_code = 28'b0000100100110000000000000000;   // BCD para 930                    
-        #100000;  // Tiempo para procesar
+        reset = 1;
+        BCD_code = 28'b0; // Inicializa en cero
+        #10;
+        reset = 0;
 
-        // Mostrar resultados de la prueba 2
-        $display("Prueba 2: 930");
+        // Proporcionar un BCD_code de prueba
+        BCD_code = 28'b0000011110000110000000000000; // Ejemplo: 786 en BCD
+
+        // Ejecutar prueba por un tiempo para ver la salida
+        #200; // Espera suficiente tiempo para varios ciclos de visualización
+
+        // Mostrar valores en cada iteración
+        $display("------------Prueba 2------------");
         display_all_values(BCD_code);
+        #10;
 
-        // Finaliza la simulación
+        // Finalizar la simulación
         $finish;
     end
 
-    // Tarea para mostrar todos los valores de los displays
+    // Tarea para mostrar todos los valores
     task display_all_values(input logic [27:0] BCD_code);
         // Iterar sobre los valores de display_select válidos
-        logic [3:0] valid_selects [0:3]; // Arreglo de valores válidos
-        valid_selects[0] = 4'b1110;
-        valid_selects[1] = 4'b1101;
-        valid_selects[2] = 4'b1011;
-        valid_selects[3] = 4'b0111;
-
         for (int i = 0; i < 4; i++) begin
-            // Establecer display_select a un valor válido
-            uut.display_select = valid_selects[i]; // Cambia para 1110, 1101, 1011 y 0111
+            // Establecer display_select a los valores válidos
+            uut.current_display = i; // Cambia current_display a 0, 1, 2 y 3
             #1; // Esperar un ciclo de reloj
 
             // Mostrar el estado actual
-            $display("display_select = %b, segments = %b", display_select, segments);
+            $display("display_select = %b, segments = %b", uut.display_select, uut.segments);
 
             // Calcular y mostrar valores de MILES, CENTENAS, DECENAS y UNIDADES
-            case (valid_selects[i]) // Cambié esto para usar valid_selects en lugar de uut.display_select
-                4'b1110: $display("MILES = %d, CENTENAS = %d, DECENAS = %d, UNIDADES = %d", uut.thousands, uut.hundreds, uut.tens, uut.units);
-                4'b1101: $display("MILES = %d, CENTENAS = %d, DECENAS = %d, UNIDADES = %d", uut.thousands, uut.hundreds, uut.tens, uut.units);
-                4'b1011: $display("MILES = %d, CENTENAS = %d, DECENAS = %d, UNIDADES = %d", uut.thousands, uut.hundreds, uut.tens, uut.units);
-                4'b0111: $display("MILES = %d, CENTENAS = %d, DECENAS = %d, UNIDADES = %d", uut.thousands, uut.hundreds, uut.tens, uut.units);
-            endcase
+            $display("MILES = %d, CENTENAS = %d, DECENAS = %d, UNIDADES = %d", uut.thousands, uut.hundreds, uut.tens, uut.units);
         end
     endtask
+
 endmodule
