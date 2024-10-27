@@ -1,30 +1,20 @@
 module display_multiplexer(
     input logic clk,
     input logic reset,
-    input logic [11:0] BCD_code,                      // Resultado en BCD
-    input logic sign,                                 // Signo del valor
-    output logic [6:0] segments,                      // Código para los displays
-    output logic [3:0] display_select                 // Indica el display activo
+    input logic [27 : 0] BCD_code,                      // Resultado en BCD
+    output logic [6 : 0] segments,                      // Código para los displays
+    output logic [3 : 0] display_select                 // Indica el display activo
 );
-    logic [3:0] units, tens, hundreds, thousands;     // Almacena las cada cifra del BCD
-    logic [1:0] current_display = 2'b0;               // Código del display activo
-    logic [19:0] refresh_counter = 19'b0;             // Contador de refresco
+    logic [3 : 0] units, tens, hundreds, thousands;     // Almacena las cada cifra del BCD
+    logic [1 : 0] current_display = 2'b0;               // Código del display activo
+    logic [19 : 0] refresh_counter = 19'b0;             // Contador de refresco
 
-    always_comb begin
-        units = BCD_code[15 : 12];         // Extrae las unidades
-        tens = BCD_code[19 : 16];          // Extrae las decenas
-        hundreds = BCD_code[23 : 20];      // Extrae las centenas
-        thousands = BCD_code[27 : 24];     // Extrae los miles
-    end
-
-    // Contador de refresco y selección de display
     always_ff @(posedge clk or posedge reset) begin
         if (reset) begin
             refresh_counter <= 0;
             current_display <= 0;
         end else begin
             refresh_counter <= refresh_counter + 1;
-            
             if (refresh_counter == 10000) begin
                 refresh_counter <= 0;
                 current_display <= current_display + 1;
@@ -33,23 +23,34 @@ module display_multiplexer(
     end
 
     always_comb begin
-        case(current_display)
-            2'b00: display_select = 4'b1110;          // Display para unidades
-            2'b01: display_select = 4'b1101;          // Display para decenas
-            2'b10: display_select = 4'b1011;          // Display para centenas
-            2'b11: display_select = 4'b0111;          // Display para miles
-            default: display_select = 4'b1111; 
-        endcase
+        units = BCD_code[15 : 12];         // Extrae las unidades
+        tens = BCD_code[19 : 16];          // Extrae las decenas
+        hundreds = BCD_code[23 : 20];      // Extrae las centenas
+        thousands = BCD_code[27 : 24];     // Extrae los miles
     end
-    
-    always_comb begin                                 // Asigna el código para el display
-        segments = 7'b0000000;
-        case(display_select)
-            4'b1110: segments = display_to_segments(units);
-            4'b1101: segments = display_to_segments(tens);
-            4'b1011: segments = display_to_segments(hundreds);
-            4'b0111: segments = display_to_segments(thousands);
-            default: segments = 7'b0000000;
+
+    always_comb begin
+        case(current_display)
+            2'b00: begin
+                display_select = 4'b1110;                   // Activa el display de unidades
+                segments = display_to_segments(units);
+            end
+            2'b01: begin
+                display_select = 4'b1101;                   // Activa el display de decenas
+                segments = display_to_segments(tens);
+            end
+            2'b10: begin
+                display_select = 4'b1011;                   // Activa el display de centenas
+                segments = display_to_segments(hundreds);
+            end
+            2'b11: begin
+                display_select = 4'b0111;                   // Activa el display de miles
+                segments = display_to_segments(thousands);
+            end
+            default: begin
+                display_select = 4'b1111; 
+                segments = 7'b0000000; 
+            end
         endcase
     end
 
