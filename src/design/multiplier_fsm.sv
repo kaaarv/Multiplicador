@@ -1,100 +1,60 @@
+typedef struct {
+    logic load_M;
+    logic load_Q;
+    logic reset_A;
+    logic reset_Qprev;
+    logic add_A;
+    logic subs_A;
+    logic shift_all;
+} mult_control_t;
+
 module multiplier_FSM (
     input logic clk, reset, valid,
-    input logic [15 : 0] mult, 
-    output logic start_mult, shift, add_multiplicand, subtract_multiplicand
+    input logic [1 : 0] Qo_Qprev,
+    output logic mult_DONE,
+    output mult_control_t mult_control
 )
-    typedef enum logic [1 : 0]{     //Codificación de los estados según Q0 y Q-1
-        S_00,
-        S_01,
-        S_10,
-        S_11
-    } state_t;
+    logic [3 : 0] N;
+    logic done;
 
+    typedef enum logic [1 : 0]{     //Codificación de los estados según Q0 y Q-1
+        IDLE,
+        INIT,
+        DECIDE,
+        SHIFT
+    } state_t;
     state_t current_state, next_state;
 
     always_ff @(posedge clk or posedge reset) begin
         if(reset) begin
-            current_state <= S_00;
+            current_state <= IDLE;
+            N <= 4'd8;
+            done <= 'b0;
         end else begin
             current_state <= next_state;
         end
     end
 
-    always_comb begin
-        start_mult = 0;
-        shift = 0;
-        add_multiplicand = 0;
-        subtract_multiplicand = 0;
-
-        case(current_state) 
-        S_00: begin
-            start_mult = 1;
-            shift = 1;
-            add_multiplicand = 0;
-            subtract_multiplicand = 0;
-
-            if({mult[1], mult[0]} == 2'b01) begin
-                next_state = S_01;
-            end else if({mult[1], mult[0]} == 2'b10) begin
-                next_state = S_10;
-            end else if({mult[1], mult[0]} == 2'b11) begin
-                next_state = S_11;
-            end else begin
-                next_state = current_state;
-            end
+    always_ff @(posedge clk) begin
+        case(current_state)
+        IDLE: begin
         end
 
-        S_01: begin
-            start_mult = 1;
-            shift = 1;
-            add_multiplicand = 1;
-            subtract_multiplicand = 0;
-
-            if({mult[1], mult[0]} == 2'b00) begin
-                next_state = S_00;
-            end else if({mult[1], mult[0]} == 2'b10) begin
-                next_state = S_10;
-            end else if({mult[1], mult[0]} == 2'b11) begin
-                next_state = S_11;
-            end else begin
-                next_state = current_state;
-            end
+        INIT: begin
         end
 
-        S_10: begin
-            start_mult = 1;
-            shift = 1;
-            add_multiplicand = 0;
-            subtract_multiplicand = 1;
-
-            if({mult[1], mult[0]} == 2'b00) begin
-                next_state = S_00;
-            end else if({mult[1], mult[0]} == 2'b01) begin
-                next_state = S_01;
-            end else if({mult[1], mult[0]} == 2'b11) begin
-                next_state = S_11;
-            end else begin
-                next_state = current_state;
-            end
+        DECIDE: begin
         end
 
-        S_11: begin
-            start_mult = 1;
-            shift = 1;
-            add_multiplicand = 0;
-            subtract_multiplicand = 0;
+        SHIFT: begin
+        end
 
-            if({mult[1], mult[0]} == 2'b00) begin
-                next_state = S_00;
-            end else if({mult[1], mult[0]} == 2'b10) begin
-                next_state = S_10;
-            end else if({mult[1], mult[0]} == 2'b01) begin
-                next_state = S_01;
-            end else begin
-                next_state = current_state;
-            end
+        default: begin
+            next_state = IDLE;
         end
         endcase
     end
+
+    assign mult_DONE = done;
 
 endmodule

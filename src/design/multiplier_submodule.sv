@@ -7,7 +7,10 @@ module multiplier_submodule (
     output logic done,
     output logic sign
 );
-    logic [16 : 0] register = 17'b0;
+    logic [7 : 0] = M;
+    logic [7 : 0] = Q;
+    logic [7 : 0] = A;
+    logic Q_prev;
 
     always_ff @(posedge clk) begin
         if (start_mult) begin
