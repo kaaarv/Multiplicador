@@ -9,11 +9,11 @@ module module_DeBounce (
 );
 
 // Parámetro ajustado para un retardo de aproximadamente 15 ms
-parameter N = 4; // Número de bits para el contador
+parameter N = 4; // Número de bits 4
 
 // Variables internas
-logic [N-1:0] q_reg;        // Contador
-logic DFF1, DFF2;           // Flip-flops para la entrada del botón
+logic [N-1:0] q_reg;        
+logic DFF1, DFF2;           
 
 // Actualización de flip-flops de entrada
 always_ff @ (posedge clk or negedge n_reset) begin
@@ -21,7 +21,7 @@ always_ff @ (posedge clk or negedge n_reset) begin
         DFF1 <= 1'b0;
         DFF2 <= 1'b0;
         q_reg <= {N{1'b0}};
-        DB_out <= 1'b0; // Inicializar salida
+        DB_out <= 1'b0; 
     end else begin
         DFF1 <= button_in;
         DFF2 <= DFF1;
