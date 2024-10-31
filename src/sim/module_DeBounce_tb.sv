@@ -1,61 +1,45 @@
 `timescale 1 ns / 100 ps
 
+module module_Debounce_tb;
 
-module module_DeBounce_tb;
-    // Parámetros de simulación
-    parameter CLK_PERIOD = 20; // Período del reloj en ns
-    parameter SIM_DURATION = 500; // Duración de la simulación en ns
-
-    // Señales del testbench
+    // Parámetros y señales
+    parameter N = 4;  // Ver en clases cual sirve
     logic clk;
     logic n_reset;
-    logic button_in;
-    logic DB_out;
+    logic [3:0] key_in;
+    logic [3:0] debounced_key;
+    logic data_available;
 
-    // Instancia del módulo DeBounce
-    module_DeBounce uut (
+
+    module_Debounce #(.N(N)) uut (
         .clk(clk),
         .n_reset(n_reset),
-        .button_in(button_in),
-        .DB_out(DB_out)
+        .key_in(key_in),
+        .debounced_key(debounced_key),
+        .data_available(data_available)
     );
 
-    // Generador de reloj
     initial begin
         clk = 0;
-        forever #(CLK_PERIOD / 2) clk = ~clk; // Cambia el reloj cada medio período
+        forever #10 clk = ~clk;  // Periodo de 20 ns
     end
 
-    // Proceso de test
-initial begin
-    // Inicialización
-    n_reset = 0;
-    button_in = 0;
-    #100; // Esperar 100 ns para el reset
-
-    n_reset = 1; // Desactivar el reset
-    #100; // Esperar estabilización
-
-    button_in = 1; // Pulsar el botón
-    #5000; // Mantener presionado el botón por un tiempo más largo
-
-    button_in = 0; // Soltar el botón
-    #5000; // Esperar y observar el estado
-
-    button_in = 1; // Pulsar el botón de nuevo
-    #5000; // Mantener presionado
-    button_in = 0; // Soltar el botón
-    #5000; // Esperar y observar
-
-    // Detener la simulación
-    $stop;
-end
-
-
-    // Monitor para observar señales
     initial begin
-    $monitor("Time: %0t | n_reset: %b | button_in: %b | DB_out: %b | q_reg: %b", 
-             $time, n_reset, button_in, DB_out, uut.q_reg);
-end
+        n_reset = 0;
+        key_in = 4'b0000;
+        #40 n_reset = 1; // Activar el reset
+        #100000 key_in = 4'b0001;   // Cambia a 0001 durante 100 ms
+        #100000 key_in = 4'b0000;   // Cambia a 0000 durante 100 ms
+        #100000 key_in = 4'b0001;   // Cambia a 0001 durante 100 ms
+        #100000 key_in = 4'b0100;   // Cambia a 0100 durante 100 ms
+        #100000 key_in = 4'b1010;   // Cambia a 1010 durante 100 ms
+        #100000 key_in = 4'b0000;   // Cambia a 0000 durante 100 ms
+        #400000 $finish;            // Finaliza la simulación
+    end
+
+    initial begin
+        $monitor("Tiempo=%0t | key_in=%b | debounced_key=%b | data_available=%b", 
+                 $time, key_in, debounced_key, data_available);
+    end
 
 endmodule
