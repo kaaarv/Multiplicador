@@ -19,7 +19,7 @@ module module_cont_2b (
             cont <= 0;
         end
         
-        else if (!stop) begin
+        else if (stop) begin
             cont <= cont + 1;
         end
 
