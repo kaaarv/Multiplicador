@@ -1,33 +1,54 @@
-module multiplier_submodule (
-    input logic clk,
-    input logic [7 : 0] A, 
-    input logic [7 : 0] B, 
-    input logic start_mult, shift, add_multiplicand, subtract_multiplicand
-    output logic [15 : 0] mult,
-    output logic done,
+module multiplier(
+    input logic clk, reset, load_M, load_Q, reset_A, reset_Qprev, 
+    input logic add_M, subs_M, shift_all,
+    input logic [7 : 0] num_1,
+    input logic [7 : 0] num_2,
+    output logic [1 : 0] Qo_Qprev, 
+    output logic [15 : 0] mult_result,
     output logic sign
 );
-    logic [7 : 0] = M;
-    logic [7 : 0] = Q;
-    logic [7 : 0] = A;
+    logic [7 : 0] M;
+    logic [7 : 0] Q;
+    logic [7 : 0] A;
     logic Q_prev;
 
-    always_ff @(posedge clk) begin
-        if (start_mult) begin
-            register [8 : 1] = B;
+    // Regulador e inicializador
+    always_ff @(posedge clk or posedge reset) begin
+        if(reset) begin
+            M <= 0;
+            Q <= 0;
+            A <= 0;
+            Q_prev <= 0;
+        end else begin
+            M <= load_M ? num_1 : M;
+            Q <= load_Q ? num_2 : Q;
+            A <= reset_A ? 8'b0 : A;
+            Q_prev <= reset_Qprev ? 1'b0 : Q_prev;
 
-            if (add_multiplicand)
-            register[16 : 9] = register[16 : 9] + A;
-
-            else if(subtract_multiplicand)
-            register[16 : 9] = register[16 : 9] - A;
-        end
-
-        if (shift) begin
-            register = register >>> 1;
+            // condición ? valor_si_verdadero : valor_si_falso;
         end
     end
 
-    assign mult = register [15 : 0];
-    assign sign = register [16];
+    // Suma o resta de M a A
+    always_ff @(posedge clk) begin
+        if(add_M) begin
+            A <= A + M;
+        end else if(subs_M) begin 
+            A <= A - M;
+        end
+    end
+
+    // Corrimiento (Shift)
+    always_ff @(posedge clk) begin
+        if(shift_all) begin
+            Q_prev <= Q[0];
+            Q <= Q >> 1;
+            Q[7] <= A[0];
+            A <= A >>> 1;
+        end
+    end
+
+    assign Qo_Qprev = {Q[0], Q_prev};
+    assign mult_result = {1'b0, A[6 : 0], Q[7 : 0]};
+    assign sign = A[7];
 endmodule

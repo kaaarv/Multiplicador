@@ -1,23 +1,21 @@
-typedef struct {
-    logic load_M;
-    logic load_Q;
-    logic reset_A;
-    logic reset_Qprev;
-    logic add_A;
-    logic subs_A;
-    logic shift_all;
-} mult_control_t;
-
 module multiplier_FSM (
-    input logic clk, reset, valid,
+    input logic clk, 
+    input logic reset, 
+    input logic valid,
     input logic [1 : 0] Qo_Qprev,
-    output logic mult_DONE,
-    output mult_control_t mult_control
-)
-    logic [3 : 0] N;
+    output logic load_M, 
+    output logic load_Q, 
+    output logic reset_A, 
+    output logic reset_Qprev, 
+    output logic add_M, 
+    output logic subs_M, 
+    output logic shift_all,
+    output logic mult_DONE
+);
+    integer counter;
     logic done;
 
-    typedef enum logic [1 : 0]{     //Codificación de los estados según Q0 y Q-1
+    typedef enum logic [1 : 0]{ 
         IDLE,
         INIT,
         DECIDE,
@@ -28,33 +26,69 @@ module multiplier_FSM (
     always_ff @(posedge clk or posedge reset) begin
         if(reset) begin
             current_state <= IDLE;
-            N <= 4'd8;
-            done <= 'b0;
+            counter <= 0;
+            done <= 0;
         end else begin
             current_state <= next_state;
         end
     end
 
     always_ff @(posedge clk) begin
+        load_M <= 0;
+        load_Q <= 0;
+        reset_A <= 0;
+        reset_Qprev <= 0;
+        add_M <= 0;
+        subs_M <= 0;
+        shift_all <= 0;
+
         case(current_state)
-        IDLE: begin
-        end
+            IDLE: begin
+                if(valid && !done) begin
+                    counter <= 0;
+                    next_state <= INIT;
+                end else begin
+                    next_state <= IDLE;
+                end
+            end
 
-        INIT: begin
-        end
+            INIT: begin
+                load_M <= 1;
+                load_Q <= 1;
+                reset_A <= 1;
+                reset_Qprev <= 1;
+                next_state <= DECIDE;
+            end
 
-        DECIDE: begin
-        end
+            DECIDE: begin
+                if(Qo_Qprev == 2'b01) begin
+                    add_M <= 1;
+                end else if(Qo_Qprev == 2'b10) begin
+                    subs_M <= 1;
+                end
+                next_state <= SHIFT;
+            end
 
-        SHIFT: begin
-        end
+            SHIFT: begin
+                if(counter < 8) begin
+                    shift_all <= 1;
+                    counter <= counter + 1;
+                end
 
-        default: begin
-            next_state = IDLE;
-        end
+                if(counter >= 8) begin
+                    done <= 1;
+                    next_state <= IDLE;
+                end else begin
+                    next_state <= DECIDE;
+                    done <= 0;
+                end
+            end
+
+            default: begin
+                next_state <= IDLE;
+            end
         endcase
     end
 
     assign mult_DONE = done;
-
 endmodule
