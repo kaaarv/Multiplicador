@@ -2,44 +2,47 @@
 
 module module_Debounce_tb;
 
-    // Parámetros y señales
-    parameter N = 4;  // Ver en clases cual sirve
+    // Señales de entrada y salida
     logic clk;
-    logic n_reset;
-    logic [3:0] key_in;
-    logic [3:0] debounced_key;
-    logic data_available;
+    logic [3:0] filas_in;
+    logic enable;
 
-
-    module_Debounce #(.N(N)) uut (
+    // Instanciación del módulo de debounce
+    module_Debounce uut (
         .clk(clk),
-        .n_reset(n_reset),
-        .key_in(key_in),
-        .debounced_key(debounced_key),
-        .data_available(data_available)
+        .filas_in(filas_in),
+        .enable(enable)
     );
 
+    // Generador de reloj (1 kHz -> 1000 ns por ciclo)
+    always #500 clk = ~clk;
+
     initial begin
+        // Inicialización de señales
         clk = 0;
-        forever #10 clk = ~clk;  // Periodo de 20 ns
+        filas_in = 4'b1111;
+        
+        // Generación de un rebote en la señal `filas_in`
+        // Cambios rápidos de estado para simular ruido de rebote
+        #1000 filas_in = 4'b1110;    // Primer cambio
+        #1000 filas_in = 4'b1111;    // Vuelve al estado inicial
+        #1000 filas_in = 4'b1110;    // Rebote
+        #1000 filas_in = 4'b1111;    // Vuelve al estado inicial
+        #1000 filas_in = 4'b1110;    // Cambio de nuevo
+        #10000 filas_in = 4'b1110;   // Mantiene el estado para estabilizar
+
+        // Después de mantener `filas_in` estable, `enable` debería activarse
+        #20000 $finish;                // Fin de la simulación
+    end
+
+    // Monitor para observar los cambios en el tiempo
+    initial begin
+        $monitor("Time=%0t | clk=%b | filas_in=%b | enable=%b",
+                 $time, clk, filas_in, enable);
     end
 
     initial begin
-        n_reset = 0;
-        key_in = 4'b0000;
-        #40 n_reset = 1; // Activar el reset
-        #100000 key_in = 4'b0001;   // Cambia a 0001 durante 100 ms
-        #100000 key_in = 4'b0000;   // Cambia a 0000 durante 100 ms
-        #100000 key_in = 4'b0001;   // Cambia a 0001 durante 100 ms
-        #100000 key_in = 4'b0100;   // Cambia a 0100 durante 100 ms
-        #100000 key_in = 4'b1010;   // Cambia a 1010 durante 100 ms
-        #100000 key_in = 4'b0000;   // Cambia a 0000 durante 100 ms
-        #400000 $finish;            // Finaliza la simulación
+        $dumpfile("module_Debounce_tb.vcd");
+        $dumpvars(0, module_Debounce_tb);
     end
-
-    initial begin
-        $monitor("Tiempo=%0t | key_in=%b | debounced_key=%b | data_available=%b", 
-                 $time, key_in, debounced_key, data_available);
-    end
-
 endmodule

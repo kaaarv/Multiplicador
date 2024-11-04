@@ -37,9 +37,8 @@ module Top_module (
 
     module_Debounce debounce (
         .clk (clk),
-        .n_reset (rst),
-        .key_in (key_in),
-        .data_available (data_available)
+        .filas_in (key_in),
+        .enable (data_available)
     );
 
     module_dato dato (

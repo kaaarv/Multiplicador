@@ -16,7 +16,7 @@ module module_dato (
     always_ff @( posedge clk ) begin 
 
         if (!rst) begin
-            pos <= 0;
+            pos <= 4'd14;
         end
 
         else if (dato_listo_i) begin

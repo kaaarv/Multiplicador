@@ -1,36 +1,35 @@
-module module_Debounce #(parameter N = 4) ( 
-    input logic clk,
-    input logic n_reset,
-    input logic [3:0] key_in,
-    output logic data_available
+module module_Debounce (
+    input logic clk,               
+    input logic [3:0] filas_in,    // Entrada de 4 bits (información sobre la fila)
+    output logic enable            // Señal de habilitación, activada cuando el dato está estabilizado
 );
 
-    logic [N-1:0] q_reg;          // Contador para el debouncing
-    logic [3:0] stable_key;        // Clave estable
-    logic stable;                  // Bandera de estabilidad
+    // Registro de desplazamiento de 4 bits para almacenar los valores de fila
+    logic [3:0][3:0] filas_reg;
 
-    always_ff @(posedge clk or negedge n_reset) begin
-        if (!n_reset) begin
-            q_reg <= 0;
-            data_available <= 0;
-            stable_key <= 4'b0000;
-            stable <= 0;
-        end else begin
-            if (key_in == stable_key) begin
-                if (q_reg < {N{1'b1}}) begin
-                    q_reg <= q_reg + 1;
-                end else begin
-                    if (!stable) begin
-                        data_available <= 1;  // Indica que hay datos estables disponibles
-                        stable <= 1;
-                    end
-                end
-            end else begin
-                q_reg <= 0;                // Reiniciar el contador
-                stable_key <= key_in;      // Actualizar la clave estable
-                stable <= 0;               // Reiniciar la estabilidad
-                data_available <= 0;       // No hay datos disponibles
-            end
-        end
+    // Proceso secuencial para desplazar los bits de la fila en cada flanco positivo del reloj
+    always @(posedge clk) begin
+        filas_reg <= {filas_in, filas_reg[3:1]}; // Desplaza los bits
     end
+
+    // Señales auxiliares para almacenar cada bit de filas_reg
+    logic filas_reg_3, filas_reg_2, filas_reg_1, filas_reg_0;
+
+    // Asignamos los valores de cada bit de filas_reg a variables auxiliares
+    assign filas_reg_3 = filas_reg[3];
+    assign filas_reg_2 = filas_reg[2];
+    assign filas_reg_1 = filas_reg[1];
+    assign filas_reg_0 = filas_reg[0];
+
+    // Lógica combinacional para determinar si la fila está estabilizada
+    //always_comb begin
+      //  enable = (filas_reg_3 & ~filas_reg_2 & ~filas_reg_1 & ~filas_reg_0); 
+    //end
+
+    always_comb begin
+    enable = (filas_reg[3] == filas_reg[2]) &&
+             (filas_reg[2] == filas_reg[1]) &&
+             (filas_reg[1] == filas_reg[0]);
+end
+
 endmodule

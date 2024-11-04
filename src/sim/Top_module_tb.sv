@@ -2,15 +2,16 @@
 
 module Top_module_tb;
 
-    // Señales de prueba
+    // Señales de testbench
     logic clk;
     logic rst;
     logic [3:0] key_in;
+
     logic data_available;
     logic [3:0] dato_o;
-
-    // Instancia del módulo top
-    Top_module uut (
+    
+    // Instancia del módulo `Top_module`
+    Top_module DUT (
         .clk(clk),
         .rst(rst),
         .key_in(key_in),
@@ -18,54 +19,57 @@ module Top_module_tb;
         .dato_o(dato_o)
     );
 
-    // Generación del reloj a 27 MHz
-    always #18.518 clk = ~clk;
-
-    // Monitor de cambios en data_available para reducir la cantidad de mensajes
-    logic data_available_prev;
-    always @(posedge clk) begin
-        if (data_available && !data_available_prev) begin
-            $display("Tiempo: %0t ns | data_available: %b | key_in: %b | dato_o: %d",
-                     $time, data_available, key_in, dato_o);
-        end
-        data_available_prev <= data_available;
+    // Generación de reloj principal a 27 MHz
+    initial begin
+        clk = 0;
+        forever #18.5 clk = ~clk;  // Periodo de 37 ns (aprox. 27 MHz)
     end
 
+    // Proceso de simulación
     initial begin
-        // Configuración del dump de la simulación
-        $dumpfile("Top_module_tb.vcd");
-        $dumpvars(0, Top_module_tb);
-        
-        // Inicialización de señales
-        clk = 0;
+        // Inicialización
         rst = 0;
-        key_in = 4'b0000;
-        data_available_prev = 0;
-
+        key_in = 4'b1111; // Sin teclas presionadas al inicio
+        
         // Activación de reset
-        #37 rst = 1;
+        #100 rst = 1;
         
-        // Ciclo de prueba con diferentes teclas
-        #100 key_in = 4'b1110; // Primera tecla
-        #300000 key_in = 4'b1101; // Segunda tecla después de un tiempo para procesar el debounce
-        #300000 key_in = 4'b1011; // Tercera tecla después de un tiempo para procesar el debounce
-        #300000 key_in = 4'b0111; // Cuarta tecla después de un tiempo para procesar el debounce
+        // Simulación de presiones de teclas en `key_in`
+        repeat (3) begin
+            // Primera tecla presionada - Fila 1
+            key_in = 4'b1110;  // Simula la activación de la fila 1
+            #200000;            // Espera de tiempo para procesar
 
-        // Prueba adicional de reset para observar el comportamiento
-        #37 rst = 0;
-        #37 rst = 1;
-        
-        // Espera para que el debounce y el divisor de frecuencia procesen las señales correctamente
-        #300000;
+            // Segunda tecla presionada - Fila 2
+            key_in = 4'b1101;  // Simula la activación de la fila 2
+            #200000;
 
-        // Nueva tecla para verificar debounce y flujo de datos
-        #100 key_in = 4'b1011;
-        #300000;
+            // Tercera tecla presionada - Fila 3
+            key_in = 4'b1011;  // Simula la activación de la fila 3
+            #200000;
 
-        // Finalización de la simulación
-        #100000;
+            // Cuarta tecla presionada - Fila 4
+            key_in = 4'b0111;  // Simula la activación de la fila 4
+            #200000;
+
+            // Regresar a sin teclas presionadas
+            key_in = 4'b1111;
+            #50000;  // Pausa entre ciclos
+        end
+
+        // Finalizar simulación
         $finish;
     end
 
-endmodule
+    // Monitoreo de salidas
+    initial begin
+        $monitor("Time=%0t | rst=%b | key_in=%b | data_available=%b | dato_o=%h",
+                 $time, rst, key_in, data_available, dato_o);
+    end
 
+    initial begin
+        $dumpfile("Top_module_tb.vcd");
+        $dumpvars(0, Top_module_tb);
+    end
+
+endmodule
