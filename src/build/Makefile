@@ -23,10 +23,10 @@ CONSTRAINTS = ../constr/multiplier_constr.cst
 
 #el top se indica sin la extension .v, esto hace referencia al nombre que le pusieron al módulo y no al archivo en si.
 TOP_DESIGN = multiplier_top
-TOP_TB     = multiplier_top_tb
+TOP_TB     = tb_multiplier_top
 
 #nombre del vcd que va a generar el tb
-VCD_FILE = multiplier_top_tb.vcd
+VCD_FILE = multiplier_top.vcd
 
 
 all: synth pnr bitstream load
