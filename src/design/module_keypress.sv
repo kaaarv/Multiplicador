@@ -15,7 +15,7 @@ always_comb begin
         2'b00 : column = 4'b1110;
         2'b01 : column = 4'b1101;
         2'b10 : column = 4'b1011;
-        2'b11 : column = 4'b1011; 
+        2'b11 : column = 4'b0111; 
         default: column = 4'b1110;
     endcase
 

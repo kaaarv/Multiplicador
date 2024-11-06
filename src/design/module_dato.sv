@@ -29,15 +29,15 @@ module module_dato (
     always_comb begin 
         case (pos)
                 0 : dato = 4'd1;
-                1 : dato = 4'd2;
-                2 : dato = 4'd3;
-                4 : dato = 4'd4;
+                1 : dato = 4'd4;
+                2 : dato = 4'd7;
+                4 : dato = 4'd2;
                 5 : dato = 4'd5;
-                6 : dato = 4'd6;
-                8 : dato = 4'd7;
-                9 : dato = 4'd8;
+                6 : dato = 4'd8;
+                8 : dato = 4'd3;
+                9 : dato = 4'd6;
                 10 : dato = 4'd9;
-                13 : dato = 4'd0;
+                7 : dato = 4'd0;
                 default: dato = 4'd15; // Indica error en la logica secuencial
             endcase
     end
