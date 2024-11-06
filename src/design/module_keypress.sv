@@ -3,10 +3,11 @@ module module_keypress (
     input logic [1 : 0] dato_codc_i,
     input logic [3 : 0] posf_i, //Nota mental: definir en los constr
 
-    output logic [1 : 0] dato_codf_o 
+    output logic [1 : 0] dato_codf_o,
+    output logic [3 : 0] columna_o  //Nota mental: definir en los constr
 );
 
-logic [3 : 0] column; //Nota mental: definir en los constr
+logic [3 : 0] column;
 logic [1 : 0] fila;
 
 always_comb begin 
@@ -33,5 +34,6 @@ always_comb begin
 end
 
 assign dato_codf_o = fila;
+assign columna_o = column;
 
 endmodule

@@ -6,6 +6,7 @@ module Top_module (
     input logic [3:0] key_in,      // Entrada del teclado sin debounce
 
     output logic data_available,    // Señal que indica que el dato está listo
+    output logic [3 : 0] columna_o, //Señal barrido de columnas 
     output logic [3:0] dato_o     // Valor binario de la tecla presionada
     
 );
@@ -32,7 +33,8 @@ module Top_module (
     module_keypress keypress (
         .dato_codc_i (dato_codc),
         .posf_i (key_in),
-        .dato_codf_o (dato_codf)
+        .dato_codf_o (dato_codf),
+        .columna_o (columna_o)
     );
 
     module_Debounce debounce (

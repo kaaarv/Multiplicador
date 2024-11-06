@@ -1,0 +1,41 @@
+IO_LOC  "columna_o[0]" 51;
+IO_PORT "columna_o[0]" IO_TYPE=LVCMOS33;
+
+IO_LOC  "columna_o[1]" 53;
+IO_PORT "columna_o[1]" IO_TYPE=LVCMOS33;
+
+IO_LOC  "columna_o[2]" 54;
+IO_PORT "columna_o[2]" IO_TYPE=LVCMOS33;
+
+IO_LOC  "columna_o[3]" 55;
+IO_PORT "columna_o[3]" IO_TYPE=LVCMOS33;
+
+IO_LOC  "key_in[0]" 56;
+IO_PORT "key_in[0]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
+
+IO_LOC  "key_in[2]" 68;
+IO_PORT "key_in[2]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
+
+IO_LOC  "key_in[1]" 57;
+IO_PORT "key_in[1]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
+
+IO_LOC  "key_in[3]" 69;
+IO_PORT "key_in[3]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
+
+IO_LOC  "clk" 52;
+IO_PORT "clk" IO_TYPE=LVCMOS33 PULL_MODE=UP;
+
+IO_LOC  "dato_o[0]" 10;
+IO_PORT "dato_o[0]" DRIVE=8 IO_TYPE=LVCMOS18;
+
+IO_LOC  "dato_o[1]" 11;
+IO_PORT "dato_o[1]" DRIVE=8 IO_TYPE=LVCMOS18;
+
+IO_LOC  "dato_o[2]" 13;
+IO_PORT "dato_o[2]" DRIVE=8 IO_TYPE=LVCMOS18;
+
+IO_LOC  "dato_o[3]" 14;
+IO_PORT "dato_o[3]" DRIVE=8 IO_TYPE=LVCMOS18;
+
+IO_LOC  "rst" 4;
+IO_PORT "rst" IO_TYPE=LVCMOS18;

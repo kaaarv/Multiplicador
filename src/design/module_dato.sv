@@ -41,6 +41,6 @@ module module_dato (
                 default: dato = 4'd15; // Indica error en la logica secuencial
             endcase
     end
-    assign dato_o = dato;
+    assign dato_o = ~dato; //Se niega unicamente para probarlo con los leds de la fpga
 
 endmodule
