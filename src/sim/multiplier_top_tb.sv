@@ -42,8 +42,8 @@ module tb_multiplier_top;
         
         // --------------Primera multiplicación:
         #10 
-        num_1 = 8'd0;
-        num_2 = 8'd37;
+        num_1 = 8'b00101101;
+        num_2 = 8'b01000111;
         #15
         start = 1;
 
@@ -58,8 +58,8 @@ module tb_multiplier_top;
         #15
         reset = 0;
         #15
-        num_1 = 8'd53;
-        num_2 = 8'd46;
+        num_1 = 8'b10101001;
+        num_2 = 8'b00101110;
         #15
         start = 1;
 
@@ -67,7 +67,7 @@ module tb_multiplier_top;
         #5 $display("Resultado 2: %0d * %0d = %0d", num_1, num_2, mult);
         #100
 
-        // ---------------Tercera multiplicación: -8 * -2
+        // ---------------Tercera multiplicación:
         reset = 1;
         start = 0;
         #15
