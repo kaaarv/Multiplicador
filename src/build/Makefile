@@ -15,18 +15,18 @@ SOURCES := $(wildcard ../design/*.v ../design/*.sv) #Todas las fuentes .v o .sv 
 
 #Fuente de simulacion
 #aca va el testbench que quieran simular
-TESTBENCH = ../sim/display_submodule_tb.sv
+TESTBENCH = ../sim/sign_magnitude_tb.sv
 
 # Constraints para el proyecto
 #aca va el archivo de constraints del proyecto
 CONSTRAINTS = ../constr/display_constraints.cst
 
 #el top se indica sin la extension .v, esto hace referencia al nombre que le pusieron al módulo y no al archivo en si.
-TOP_DESIGN = display_multiplexer
-TOP_TB     = display_multiplexer_tb
+TOP_DESIGN = sign_magnitude
+TOP_TB     = sign_magnitude_tb
 
 #nombre del vcd que va a generar el tb
-VCD_FILE = display_multiplexer.vcd
+VCD_FILE = tb_sign_magnitude.vcd
 
 
 all: synth pnr bitstream load
