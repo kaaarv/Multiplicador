@@ -1,11 +1,11 @@
 module binary_BCD_tb();
     // Entradas
     logic reset;
-    logic [11:0] mult_result;
+    logic [15:0] mult_result;  // Cambiado a 16 bits
     logic valid;
 
     // Salidas
-    logic [27:0] BCD_code;
+    logic [15:0] BCD_code;  // Cambiado a 16 bits
 
     // Instancia del módulo a probar
     binary_BCD uut (
@@ -17,8 +17,8 @@ module binary_BCD_tb();
 
     // Tarea para mostrar el código BCD
     task display_BCD;
-        input [27:0] BCD;
-        $display("BCD: %d%d%d%d", BCD[27:24], BCD[23:20], BCD[19:16], BCD[15:12]);
+        input [15:0] BCD;  // Cambiado a 16 bits
+        $display("BCD: %d%d%d%d", BCD[15:12], BCD[11:8], BCD[7:4], BCD[3:0]);
     endtask
 
     // Proceso de simulación
@@ -34,7 +34,7 @@ module binary_BCD_tb();
         
         // Prueba con diferentes números binarios
         // 1. Número: 45 (decimal)
-        mult_result = 12'd45;
+        mult_result = 16'd45;  // Cambiado a 16 bits
         valid = 1;
         #10;
         valid = 0;
@@ -43,7 +43,7 @@ module binary_BCD_tb();
         display_BCD(BCD_code);
         
         // 2. Número: 123 (decimal)
-        mult_result = 12'd123;
+        mult_result = 16'd123;  // Cambiado a 16 bits
         valid = 1;
         #10;
         valid = 0;
@@ -52,7 +52,7 @@ module binary_BCD_tb();
         display_BCD(BCD_code);
 
         // 3. Número: 999 (decimal)
-        mult_result = 12'd999;
+        mult_result = 16'd999;  // Cambiado a 16 bits
         valid = 1;
         #10;
         valid = 0;
@@ -61,7 +61,7 @@ module binary_BCD_tb();
         display_BCD(BCD_code);
 
         // 4. Número: 2047 (decimal)
-        mult_result = 12'd2047;
+        mult_result = 16'd2047;  // Cambiado a 16 bits
         valid = 1;
         #10;
         valid = 0;
@@ -70,7 +70,7 @@ module binary_BCD_tb();
         display_BCD(BCD_code);
 
         // 5. Número: 256 (decimal)
-        mult_result = 12'd256;
+        mult_result = 16'd256;  // Cambiado a 16 bits
         valid = 1;
         #10;
         valid = 0;
