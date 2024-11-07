@@ -1,13 +1,10 @@
 module binary_BCD_tb();
-    // Entradas
     logic reset;
-    logic [15:0] mult_result;  // Cambiado a 16 bits
+    logic [15:0] mult_result;  
     logic valid;
 
-    // Salidas
-    logic [15:0] BCD_code;  // Cambiado a 16 bits
+    logic [15:0] BCD_code; 
 
-    // Instancia del módulo a probar
     binary_BCD uut (
         .reset(reset),
         .mult_result(mult_result),
@@ -15,35 +12,28 @@ module binary_BCD_tb();
         .BCD_code(BCD_code)
     );
 
-    // Tarea para mostrar el código BCD
     task display_BCD;
-        input [15:0] BCD;  // Cambiado a 16 bits
+        input [15:0] BCD; 
         $display("BCD: %d%d%d%d", BCD[15:12], BCD[11:8], BCD[7:4], BCD[3:0]);
     endtask
 
-    // Proceso de simulación
     initial begin
-        // Crear archivo .vcd y empezar a volcar datos de señales
-        $dumpfile("binary_BCD_tb.vcd");  // Nombre del archivo .vcd
-        $dumpvars(0, binary_BCD_tb);  // Volcar todas las variables de este módulo
+        $dumpfile("binary_BCD_tb.vcd");  
+        $dumpvars(0, binary_BCD_tb); 
 
-        // Inicializa las señales
         reset = 1;
         valid = 0;
-        #10 reset = 0; // Quitar reset después de un tiempo
+        #10 reset = 0;
         
-        // Prueba con diferentes números binarios
-        // 1. Número: 45 (decimal)
-        mult_result = 16'd45;  // Cambiado a 16 bits
+        mult_result = 16'd45; 
         valid = 1;
         #10;
         valid = 0;
-        #50; // Espera para permitir la conversión
+        #50;
         $display("Numero en decimal: 45");
         display_BCD(BCD_code);
         
-        // 2. Número: 123 (decimal)
-        mult_result = 16'd123;  // Cambiado a 16 bits
+        mult_result = 16'd123; 
         valid = 1;
         #10;
         valid = 0;
@@ -51,8 +41,7 @@ module binary_BCD_tb();
         $display("Numero en decimal: 123");
         display_BCD(BCD_code);
 
-        // 3. Número: 999 (decimal)
-        mult_result = 16'd999;  // Cambiado a 16 bits
+        mult_result = 16'd999;
         valid = 1;
         #10;
         valid = 0;
@@ -60,8 +49,7 @@ module binary_BCD_tb();
         $display("Numero en decimal: 999");
         display_BCD(BCD_code);
 
-        // 4. Número: 2047 (decimal)
-        mult_result = 16'd2047;  // Cambiado a 16 bits
+        mult_result = 16'd2047;
         valid = 1;
         #10;
         valid = 0;
@@ -69,8 +57,7 @@ module binary_BCD_tb();
         $display("Numero en decimal: 2047");
         display_BCD(BCD_code);
 
-        // 5. Número: 256 (decimal)
-        mult_result = 16'd256;  // Cambiado a 16 bits
+        mult_result = 16'd256; 
         valid = 1;
         #10;
         valid = 0;

@@ -1,3 +1,11 @@
+// ------------Tecnológico de Costa Rica-----------
+// Escuela de Ingeniería Electrónica: Diseño Lógico
+
+// Subsistema de despliegue en displays de 7 segmentos (signo y magnitud)
+// Pablo Elizondo Espinoza
+// Eduardo Tencio Solano
+// Karina Quiros Avila
+
 module sign_magnitude(
     input logic clk, reset, valid,
     input logic [15 : 0] mult_result,

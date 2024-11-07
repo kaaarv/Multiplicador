@@ -1,13 +1,21 @@
+// ------------Tecnológico de Costa Rica-----------
+// Escuela de Ingeniería Electrónica: Diseño Lógico
+
+// Subsistema de despliegue en displays de 7 segmentos
+// Pablo Elizondo Espinoza
+// Eduardo Tencio Solano
+// Karina Quiros Avila
+
 module display_multiplexer(
     input logic clk,
     input logic reset,
-    input logic [15 : 0] BCD_code,                      // Resultado en BCD
-    output logic [6 : 0] segments,                      // Código para los displays
-    output logic [3 : 0] display_select                 // Indica el display activo
+    input logic [15 : 0] BCD_code,                  
+    output logic [6 : 0] segments,                   
+    output logic [3 : 0] display_select           
 );
-    logic [3 : 0] units, tens, hundreds, thousands;     // Almacena las cada cifra del BCD
-    logic [1 : 0] current_display = 2'b0;               // Código del display activo
-    logic [19 : 0] refresh_counter = 19'b0;             // Contador de refresco
+    logic [3 : 0] units, tens, hundreds, thousands;   
+    logic [1 : 0] current_display = 2'b0;         
+    logic [19 : 0] refresh_counter = 19'b0;     
 
     always_ff @(posedge clk or posedge reset) begin
         if (reset) begin
@@ -51,7 +59,7 @@ module display_multiplexer(
         endcase
     end
 
-    function [6:0] display_to_segments(input logic [3:0] digit);
+    function [6:0] display_to_segments(input logic [3 : 0] digit);
         case(digit)
             4'd0: display_to_segments = 7'b1111110;
             4'd1: display_to_segments = 7'b0110000;
@@ -67,7 +75,7 @@ module display_multiplexer(
         endcase
     endfunction
 
-    task automatic extract_bcd(input logic [27:0] BCD_code);
+    task automatic extract_bcd(input logic [15 : 0] BCD_code);
         units = BCD_code[3 : 0];
         tens = BCD_code[7 : 4];
         hundreds = BCD_code[11 : 8];

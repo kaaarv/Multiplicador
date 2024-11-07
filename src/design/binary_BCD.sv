@@ -1,3 +1,11 @@
+// ------------Tecnológico de Costa Rica-----------
+// Escuela de Ingeniería Electrónica: Diseño Lógico
+
+// Subsistema de despliegue en displays de 7 segmentos (BCD)
+// Pablo Elizondo Espinoza
+// Eduardo Tencio Solano
+// Karina Quiros Avila
+
 module binary_BCD(
     input logic reset,
     input logic [15 : 0] mult_result,
