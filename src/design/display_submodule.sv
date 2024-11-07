@@ -1,7 +1,7 @@
 module display_multiplexer(
     input logic clk,
     input logic reset,
-    input logic [27 : 0] BCD_code,                      // Resultado en BCD
+    input logic [15 : 0] BCD_code,                      // Resultado en BCD
     output logic [6 : 0] segments,                      // Código para los displays
     output logic [3 : 0] display_select                 // Indica el display activo
 );
@@ -68,9 +68,9 @@ module display_multiplexer(
     endfunction
 
     task automatic extract_bcd(input logic [27:0] BCD_code);
-        units = BCD_code[15 : 12];
-        tens = BCD_code[19 : 16];
-        hundreds = BCD_code[23 : 20];
-        thousands = BCD_code[27 : 24];
+        units = BCD_code[3 : 0];
+        tens = BCD_code[7 : 4];
+        hundreds = BCD_code[11 : 8];
+        thousands = BCD_code[15 : 12];
     endtask
 endmodule

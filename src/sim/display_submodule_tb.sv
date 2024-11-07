@@ -1,7 +1,7 @@
 module display_multiplexer_tb;
     logic clk;
     logic reset;
-    logic [27:0] BCD_code;
+    logic [15:0] BCD_code;
     logic [6:0] segments;
     logic [3:0] display_select;
 
@@ -22,14 +22,18 @@ module display_multiplexer_tb;
 
     // Proceso de prueba
     initial begin
+        // Crear archivo .vcd y empezar a volcar datos de señales
+        $dumpfile("display_multiplexer_tb.vcd");  // Nombre del archivo .vcd
+        $dumpvars(0, display_multiplexer_tb);  // Volcar todas las variables de este módulo
+
         // Inicializar señales
         reset = 1;
-        BCD_code = 28'b0; // Inicializa en cero
+        BCD_code = 16'b0; // Inicializa en cero
         #10;
         reset = 0;
 
         // Proporcionar un BCD_code de prueba
-        BCD_code = 28'b0001001000110100000000000000; // Ejemplo: 1234 en BCD
+        BCD_code = 16'b1000010100111001;
 
         // Ejecutar prueba por un tiempo para ver la salida
         #200; // Espera suficiente tiempo para varios ciclos de visualización
@@ -40,12 +44,12 @@ module display_multiplexer_tb;
         #10000;
 
         reset = 1;
-        BCD_code = 28'b0; // Inicializa en cero
+        BCD_code = 16'b0; // Inicializa en cero
         #10;
         reset = 0;
 
         // Proporcionar un BCD_code de prueba
-        BCD_code = 28'b0000011110000110000000000000; // Ejemplo: 786 en BCD
+        BCD_code = 16'b1001100101000101;
 
         // Ejecutar prueba por un tiempo para ver la salida
         #200; // Espera suficiente tiempo para varios ciclos de visualización
@@ -60,12 +64,12 @@ module display_multiplexer_tb;
     end
 
     // Tarea para mostrar todos los valores
-    task display_all_values(input logic [27:0] BCD_code);
+    task display_all_values(input logic [15:0] BCD_code);  // Cambié el tamaño a 16 bits
         // Iterar sobre los valores de display_select válidos
         for (int i = 0; i < 4; i++) begin
             // Establecer display_select a los valores válidos
-            uut.current_display = i; // Cambia current_display a 0, 1, 2 y 3
-            #1; // Esperar un ciclo de reloj
+            //uut.display_select = i; // Cambia display_select a 0, 1, 2 y 3
+            #100000; // Esperar un ciclo de reloj
 
             // Mostrar el estado actual
             $display("display_select = %b, segments = %b", uut.display_select, uut.segments);
