@@ -37,23 +37,23 @@ module display_multiplexer(
     always_comb begin
         case(current_display)
             2'b00: begin
-                display_select = 4'b1110;                   // Activa el display de unidades
+                display_select = 4'b0001;                   // Activa el display de unidades
                 segments = display_to_segments(units);      // Cambia al dígito de las unidades
             end
             2'b01: begin
-                display_select = 4'b1101;                   // Activa el display de decenas
+                display_select = 4'b0010;                   // Activa el display de decenas
                 segments = display_to_segments(tens);       // Cambia al dígito de las decenas
             end
             2'b10: begin
-                display_select = 4'b1011;                   // Activa el display de centenas
+                display_select = 4'b01000;                   // Activa el display de centenas
                 segments = display_to_segments(hundreds);   // Cambia al dígito de las centenas
             end
             2'b11: begin
-                display_select = 4'b0111;                   // Activa el display de miles
+                display_select = 4'b1000;                   // Activa el display de miles
                 segments = display_to_segments(thousands);  // Cambia al dígito de los miles
             end
             default: begin
-                display_select = 4'b1111; 
+                display_select = 4'b0000; 
                 segments = 7'b0000000; 
             end
         endcase
