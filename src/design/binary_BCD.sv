@@ -8,6 +8,7 @@
 
 module binary_BCD(
     input logic reset,
+    input logic clk,
     input logic [15 : 0] mult_result,
     input logic valid,
     output logic BCD_ready,
@@ -17,7 +18,7 @@ module binary_BCD(
     logic ready;
     integer i;
 
-    always_ff @(posedge reset or posedge valid) begin
+    always_ff @(posedge clk or posedge reset) begin
         if (reset) begin
             shift_reg <= 32'b0;
             ready <= 1'b0;
