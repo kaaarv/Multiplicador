@@ -8,7 +8,7 @@
 
 module display_multiplexer(
     input logic clk,
-    input logic reset,
+    input logic reset, valid_BCD,
     input logic [15 : 0] BCD_code,                  
     output logic [6 : 0] segments,                   
     output logic [3 : 0] display_select           
@@ -21,7 +21,7 @@ module display_multiplexer(
         if (reset) begin
             refresh_counter <= 0;
             current_display <= 0;
-        end else begin
+        end else if(valid_BCD)begin
             refresh_counter <= refresh_counter + 1;
             if (refresh_counter == 10000) begin
                 refresh_counter <= 0;
