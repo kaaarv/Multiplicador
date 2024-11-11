@@ -1,26 +1,26 @@
-IO_LOC  "columna_o[0]" 51;
+IO_LOC  "columna_o[0]" 70;
 IO_PORT "columna_o[0]" IO_TYPE=LVCMOS33;
 
-IO_LOC  "columna_o[1]" 53;
+IO_LOC  "columna_o[1]" 71;
 IO_PORT "columna_o[1]" IO_TYPE=LVCMOS33;
 
-IO_LOC  "columna_o[2]" 54;
+IO_LOC  "columna_o[2]" 72;
 IO_PORT "columna_o[2]" IO_TYPE=LVCMOS33;
 
-IO_LOC  "columna_o[3]" 55;
+IO_LOC  "columna_o[3]" 73;
 IO_PORT "columna_o[3]" IO_TYPE=LVCMOS33;
 
-IO_LOC  "key_in[0]" 56;
-IO_PORT "key_in[0]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
+IO_LOC  "key_in[0]" 74;
+IO_PORT "key_in[0]" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 
-IO_LOC  "key_in[2]" 68;
-IO_PORT "key_in[2]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
+IO_LOC  "key_in[2]" 76;
+IO_PORT "key_in[2]" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 
-IO_LOC  "key_in[1]" 57;
-IO_PORT "key_in[1]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
+IO_LOC  "key_in[1]" 75;
+IO_PORT "key_in[1]" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 
-IO_LOC  "key_in[3]" 69;
-IO_PORT "key_in[3]" IO_TYPE=LVCMOS33 PULL_MODE=DOWN;
+IO_LOC  "key_in[3]" 77;
+IO_PORT "key_in[3]" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 
 IO_LOC  "clk" 52;
 IO_PORT "clk" IO_TYPE=LVCMOS33 PULL_MODE=UP;

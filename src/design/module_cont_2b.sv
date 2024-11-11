@@ -23,6 +23,10 @@ module module_cont_2b (
             cont <= cont + 1;
         end
 
+        else if (!stop) begin
+            cont <= cont;
+        end
+
     end
 
     assign cont_out = cont;
