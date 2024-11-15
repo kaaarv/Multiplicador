@@ -23,9 +23,15 @@ module display_multiplexer(
             current_display <= 0;
         end else if(valid_BCD)begin
             refresh_counter <= refresh_counter + 1;
-            if (refresh_counter == 10000) begin
+
+            if(refresh_counter == 167) begin
                 refresh_counter <= 0;
-                current_display <= current_display + 1;
+
+                if(current_display < 3) begin
+                    current_display <= current_display + 1;
+                end else begin
+                    current_display <= 0;
+                end
             end
         end
     end
@@ -45,7 +51,7 @@ module display_multiplexer(
                 segments = display_to_segments(tens);       // Cambia al dígito de las decenas
             end
             2'b10: begin
-                display_select = 4'b01000;                   // Activa el display de centenas
+                display_select = 4'b0100;                   // Activa el display de centenas
                 segments = display_to_segments(hundreds);   // Cambia al dígito de las centenas
             end
             2'b11: begin

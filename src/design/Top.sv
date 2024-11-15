@@ -3,16 +3,16 @@ module top(
     input logic rst,
     input logic [3 : 0] dipswitch,
     output logic [6 : 0] segments,                   
-    output logic [3 : 0] display_select  
-
+    output logic [3 : 0] display_select,
+    output logic sign
 );
-    logic [15:0] numero;
+    logic [15 : 0] numero;
     logic valid = 1'd1;
-    logic [15:0] magnitud;
-    logic sign;
+    logic [15 : 0] magnitud;
     logic mult_sign_magnitude_ready;
     logic BCD_ready;
-    logic BCD_code;
+    logic [15 : 0] BCD_code;
+    logic clk_display;
 
     prueba U_prueba(
         .dipswitch (dipswitch),
@@ -38,15 +38,18 @@ module top(
         .BCD_code (BCD_code)
     );
 
-    display_submodule U_display_submodule (
-        .clk (clk),
+    clk_displays U_clk_displays (
+        .clk(clk),
+        .reset(rst),
+        .clk_display(clk_display)
+    );
+
+    display_multiplexer U_display_multiplexer (
+        .clk (clk_display),
         .reset (rst),
         .valid_BCD(BCD_ready),
         .BCD_code (BCD_code),
         .segments(segments),
         .display_select(display_select)
     );
-
-
-
 endmodule
