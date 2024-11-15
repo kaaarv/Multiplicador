@@ -8,6 +8,7 @@ Eduardo Tencio Solano | 2021079387
 Karina Quiros Avila | 2021044233  
 
 ## Descripción general de funcionamiento  
+Este proyecto consiste en el diseño de un multiplicador con signo que despliega los valores numéricos ingresados y el resultado final del proceso de multiplicación en displays de 7 segmentos. Consta de tres subsistemas principales que se interconectan entre si para cumplir con el objetivo final que es entregar un valor numérico como resultado de la multiplicación de dos valores decimales de hasta dos dígitos; a continuación, se detalla por separado el funcionamiento general de cada uno de los subsistemas.  
 ### Subsistema de lectura de datos y teclado  
 ### Subsistema de multiplicación  
 ### Subsistema de despliegue
