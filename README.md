@@ -43,6 +43,13 @@ El multiplicador continúa su proceso de iteración, sumando, restando y haciend
 
 
 ### Diagramas del subsistema de despliegue  
+Para este caso, se puede dividir en tres diagramas de bloques y uno principal que muestre las conexiones entre los tres. Por un lado se tiene al diagrama del módulo que separa el signo y la magnitud del resultado de la multiplicación.  
+![Diagrama signo_magnitud](https://github.com/user-attachments/assets/0c5cc9db-b6cf-49b9-9a1b-d84282ec23be)  
+
+Luego, se tiene al módulo que convierte la magnitud de la multiplicación en un código BCD para poder ser mostrado.
+
+
+Finalmente, está el módulo del display el cual obtiene cada uno de los digitos del resultado, del código BCD y los va desplegando en los displays de 7 segmentos. 
 
 ## Diagramas de estados de las máquinas de estado  
 ### Máquina de estados principal  
