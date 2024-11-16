@@ -37,6 +37,11 @@ La imagen anterior, muestra la estructura que se encarga de refrescar los displa
 ## Diagramas de bloques e interconexiones  
 ### Diagramas del subsistema de lectura de datos y teclado   
 ### Diagramas del subsistema de multiplicación  
+Para el sistema de multiplicación se cuenta con el módulo que contiene la lógica del algortimo de Boot y su FSM que lo controla, tal como se mencionó en uno de los apartados anteriores. Se cuenta con un total de 4 señales de control directas desde la FSM hasta el multiplicador, en cuanto al proceso de suma o resta, este se rige por el estado actual en el que se encuentre la FSM y por el valor de Qo_Qprev.  
+![Multiplicador](https://github.com/user-attachments/assets/58961c2b-4316-40ad-805b-b39f7417a06b)  
+El multiplicador continúa su proceso de iteración, sumando, restando y haciendo shift aritmético según corresponda, con la ruta de datos descrita en la imagen. 
+
+
 ### Diagramas del subsistema de despliegue  
 
 ## Diagramas de estados de las máquinas de estado  
