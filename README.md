@@ -50,7 +50,11 @@ Luego, se tiene al módulo que convierte la magnitud de la multiplicación en un
 
 ![Diagrama BCD](https://github.com/user-attachments/assets/ed9646db-a5b4-4219-be8a-79ea726d519b)  
 
-Finalmente, está el módulo del display el cual obtiene cada uno de los digitos del resultado, del código BCD y los va desplegando en los displays de 7 segmentos. 
+Finalmente, está el módulo del display el cual obtiene cada uno de los digitos del resultado, del código BCD y los va desplegando en los displays de 7 segmentos.  
+![Diagrama display](https://github.com/user-attachments/assets/89b08950-c4d4-4269-830f-1546802ff175)  
+Todo lo anterior, se puede resumir en un digrama que interconecta todos los módulos para llegar a formar el subsistema de despliegue, cabe aclarar que acá se está integrando el proceso de binario a BCD dentro del subsistema de despliegue en lugar de separarlo como otro subsistema aparte.
+
+
 
 ## Diagramas de estados de las máquinas de estado  
 ### Máquina de estados principal  
