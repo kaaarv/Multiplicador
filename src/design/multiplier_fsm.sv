@@ -6,7 +6,7 @@
 // Eduardo Tencio Solano
 // Karina Quiros Avila
 
-module multiplier_FSM (
+module multiplier_FSM(
     input logic clk, 
     input logic reset, 
     input logic valid,

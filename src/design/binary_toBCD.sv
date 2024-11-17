@@ -6,7 +6,7 @@
 // Eduardo Tencio Solano
 // Karina Quiros Avila
 
-module binary_BCD(
+module binary_toBCD(
     input logic reset,
     input logic clk,
     input logic [15 : 0] mult_result,

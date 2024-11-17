@@ -6,7 +6,7 @@
 // Eduardo Tencio Solano
 // Karina Quiros Avila
 
-module display_multiplexer(
+module display_code(
     input logic clk,
     input logic reset, valid_BCD,
     input logic [15 : 0] BCD_code,                  
