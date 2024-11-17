@@ -37,12 +37,36 @@ La imagen anterior, muestra la estructura que se encarga de refrescar los displa
 ## Diagramas de bloques e interconexiones  
 ### Diagramas del subsistema de lectura de datos y teclado   
 ### Diagramas del subsistema de multiplicación  
+Para el sistema de multiplicación se cuenta con el módulo que contiene la lógica del algortimo de Boot y su FSM que lo controla, tal como se mencionó en uno de los apartados anteriores. Se cuenta con un total de 4 señales de control directas desde la FSM hasta el multiplicador, en cuanto al proceso de suma o resta, este se rige por el estado actual en el que se encuentre la FSM y por el valor de Qo_Qprev.  
+![Multiplicador](https://github.com/user-attachments/assets/58961c2b-4316-40ad-805b-b39f7417a06b)  
+El multiplicador continúa su proceso de iteración, sumando, restando y haciendo shift aritmético según corresponda, con la ruta de datos descrita en la imagen. 
+
+
 ### Diagramas del subsistema de despliegue  
+Para este caso, se puede dividir en tres diagramas de bloques y uno principal que muestre las conexiones entre los tres. Por un lado se tiene al diagrama del módulo que separa el signo y la magnitud del resultado de la multiplicación.  
+![Diagrama signo_magnitud](https://github.com/user-attachments/assets/0c5cc9db-b6cf-49b9-9a1b-d84282ec23be)  
+
+Luego, se tiene al módulo que convierte la magnitud de la multiplicación en un código BCD para poder ser mostrado.  
+
+![Diagrama BCD](https://github.com/user-attachments/assets/ed9646db-a5b4-4219-be8a-79ea726d519b)  
+
+Finalmente, está el módulo del display el cual obtiene cada uno de los digitos del resultado, del código BCD y los va desplegando en los displays de 7 segmentos.  
+![Diagrama display](https://github.com/user-attachments/assets/89b08950-c4d4-4269-830f-1546802ff175)  
+Todo lo anterior, se puede resumir en un digrama que interconecta todos los módulos para llegar a formar el subsistema de despliegue, cabe aclarar que acá se está integrando el proceso de binario a BCD dentro del subsistema de despliegue en lugar de separarlo como otro subsistema aparte.  
+![Diagrama subsistema](https://github.com/user-attachments/assets/4c92236e-42bc-4fa0-afd0-16eb2ecd8bf4)
+
+
+
+
 
 ## Diagramas de estados de las máquinas de estado  
 ### Máquina de estados principal  
 ### Máquina de estados para control en el teclado  
 ### Máquina de estados del multiplicador  
+El multiplicador cuenta con su propia máquina de estados que controla las operaciones que se van ejecutando conforme avanza el proceso. Tal como se mencionó anteriormente, se cuenta con 7 estados y 5 señales de control, según se detallan a continuación.  
+![FSM_multiplicador](https://github.com/user-attachments/assets/0337ea92-20e2-4215-9126-b0c28856164e)  
+En el caso del estado DECIDE, este no asgina ningún valor a alguna señal de control, pues solo es un estado de paso para decidir si se aplica una suma, una resta o si directamente se hace un shift aritmético a la derecha.  
+
 
 ## Análisis de una simulación completa del sistema  
 
