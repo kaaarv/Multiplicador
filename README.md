@@ -63,6 +63,10 @@ Todo lo anterior, se puede resumir en un digrama que interconecta todos los mód
 ### Máquina de estados principal  
 ### Máquina de estados para control en el teclado  
 ### Máquina de estados del multiplicador  
+El multiplicador cuenta con su propia máquina de estados que controla las operaciones que se van ejecutando conforme avanza el proceso. Tal como se mencionó anteriormente, se cuenta con 7 estados y 5 señales de control, según se detallan a continuación.  
+![FSM_multiplicador](https://github.com/user-attachments/assets/0337ea92-20e2-4215-9126-b0c28856164e)  
+En el caso del estado DECIDE, este no asgina ningún valor a alguna señal de control, pues solo es un estado de paso para decidir si se aplica una suma, una resta o si directamente se hace un shift aritmético a la derecha.  
+
 
 ## Análisis de una simulación completa del sistema  
 
