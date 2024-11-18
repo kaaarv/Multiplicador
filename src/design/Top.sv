@@ -15,13 +15,15 @@ module top(
     logic clk_display;
 
     prueba U_prueba(
+        .clk (clk),
+        .rst (~rst),
         .dipswitch (dipswitch),
-        .numero (numero)
+        .numero_out (numero)
     );
 
     sign_magnitude U_sign_magnitude (
         .clk (clk),
-        .reset (rst),
+        .reset (~rst),
         .valid (valid),
         .mult_result (numero),
         .magnitude (magnitud),
@@ -31,7 +33,7 @@ module top(
 
     binary_BCD U_binary_BCD (
         .clk (clk),
-        .reset (rst),
+        .reset (~rst),
         .valid (mult_sign_magnitude_ready),
         .mult_result (magnitud),
         .BCD_ready (BCD_ready),
@@ -40,13 +42,13 @@ module top(
 
     clk_displays U_clk_displays (
         .clk(clk),
-        .reset(rst),
+        .reset(~rst),
         .clk_display(clk_display)
     );
 
     display_multiplexer U_display_multiplexer (
         .clk (clk_display),
-        .reset (rst),
+        .reset (~rst),
         .valid_BCD(BCD_ready),
         .BCD_code (BCD_code),
         .segments(segments),
