@@ -7,7 +7,7 @@ module Top_module (
 
     output logic data_available,    // Señal que indica que el dato está listo
     output logic [3 : 0] columna_o, //Señal barrido de columnas 
-    output logic [3:0] dato_o     // Valor binario de la tecla presionada
+    output logic [3:0] dato_o     // Valor binario de la tecla presionada. Convertir a señal interna
     
 );
 
@@ -51,5 +51,8 @@ module Top_module (
         .dato_codf_i (dato_codf),
         .dato_o (dato_o)
     );
+
+
+    //Modulo de flujo de datos (FSM)
 
 endmodule
