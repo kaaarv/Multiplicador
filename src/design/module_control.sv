@@ -3,8 +3,9 @@ module module_control (
     input logic rst,
     input logic dat_ready, //Definir en los constr
     input logic [3:0] dato,
+    input logic signo,
     output logic [7:0] numero1, numero2,
-    output logic valid 
+    output logic valid, signo1, signo2 
 );
 
     typedef enum logic [3:0] {S0, S1, S2, S3, S4} statetype;
@@ -46,22 +47,24 @@ module module_control (
         case (state)
             S0: begin
                 valid = 0;
-                unidades1 = dato; 
+                decenas1 = dato;
+                signo1 = signo;
             end
 
             S1: begin
                 valid = 0;
-                decenas1 = dato;
+                unidades1 = dato;
             end
 
             S2: begin
                 valid = 0;
-                unidades2 = dato;  
+                decenas2 = dato;
+                signo2 = signo;  
             end
 
             S3: begin
                 valid = 0;
-                decenas2 = dato; 
+                unidades2 = dato; 
             end
 
             S4: begin
@@ -76,6 +79,8 @@ module module_control (
                 decenas1 = '0;
                 unidades2 = '0;
                 decenas2 = '0;
+                signo1 = 0;
+                signo2 = 0;
             end
         endcase
         
