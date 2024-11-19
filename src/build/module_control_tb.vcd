@@ -1,0 +1,149 @@
+$date
+	Tue Nov 19 17:45:54 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ps
+$end
+$scope module module_control_tb $end
+$var wire 1 ! valid $end
+$var wire 1 " signo2 $end
+$var wire 1 # signo1 $end
+$var wire 8 $ numero2 [7:0] $end
+$var wire 8 % numero1 [7:0] $end
+$var reg 1 & clk $end
+$var reg 1 ' dat_ready $end
+$var reg 4 ( dato [3:0] $end
+$var reg 1 ) rst $end
+$var reg 1 * signo $end
+$scope module uut $end
+$var wire 1 & clk $end
+$var wire 1 ' dat_ready $end
+$var wire 4 + dato [3:0] $end
+$var wire 1 ) rst $end
+$var wire 1 * signo $end
+$var reg 4 , decenas1 [3:0] $end
+$var reg 4 - decenas2 [3:0] $end
+$var reg 4 . nextstate [3:0] $end
+$var reg 8 / numero1 [7:0] $end
+$var reg 8 0 numero2 [7:0] $end
+$var reg 1 # signo1 $end
+$var reg 1 " signo2 $end
+$var reg 4 1 state [3:0] $end
+$var reg 4 2 unidades1 [3:0] $end
+$var reg 4 3 unidades2 [3:0] $end
+$var reg 1 ! valid $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+b0 3
+b0 2
+b0 1
+bx 0
+bx /
+b1 .
+b0 -
+b0 ,
+b0 +
+0*
+0)
+b0 (
+0'
+0&
+bx %
+bx $
+0#
+0"
+0!
+$end
+#5000
+1&
+#10000
+0&
+1)
+#15000
+1&
+#16000
+b1001 ,
+1'
+b1001 (
+b1001 +
+#20000
+0&
+#25000
+b1001 2
+b10 .
+b1 1
+1&
+#26000
+0'
+#30000
+0&
+#35000
+1&
+#36000
+1'
+#40000
+0&
+#45000
+b1001 -
+b11 .
+b10 1
+1&
+#46000
+0'
+#50000
+0&
+#55000
+1&
+#56000
+1"
+b1 -
+1'
+1*
+b1 (
+b1 +
+#60000
+0&
+#65000
+b1 3
+b100 .
+b11 1
+1&
+#66000
+0'
+#70000
+0&
+#75000
+1&
+#76000
+b101 3
+1'
+0*
+b101 (
+b101 +
+#80000
+0&
+#85000
+b1111 $
+b1111 0
+b1100011 %
+b1100011 /
+1!
+b0 .
+b100 1
+1&
+#86000
+0'
+#90000
+0&
+#95000
+1&
+#96000

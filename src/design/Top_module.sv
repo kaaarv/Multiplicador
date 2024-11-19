@@ -1,5 +1,7 @@
 `timescale 1 ns / 100 ps
 
+//Se tiene que añadir el modulo de control y la señal de signo
+
 module Top_module (
     input logic clk,               // Reloj principal
     input logic rst,               // Reset global

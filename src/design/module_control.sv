@@ -1,3 +1,11 @@
+//Resumen de estados:
+// Estado S0: Captura las decenas del primer número y asigna el signo
+// Estado S1: Captura las unidades del primer número
+// Estado S2: Captura las decenas del segundo número y asigna el signo
+// Estado S3: Captura las unidades del segundo número
+// Estado S4: Ensambla los números y activa la señal de validación
+
+
 module module_control (
     input logic clk,
     input logic rst,
@@ -20,6 +28,8 @@ module module_control (
         if (!rst) begin
             state <= S0;
             valid <= '0;
+            signo1 <= '0;
+            signo2 <= '0;
         end
 
         else if (dat_ready) begin
@@ -35,7 +45,7 @@ module module_control (
             S1: nextstate = S2;
             S2: nextstate = S3;
             S3: nextstate = S4;
-            S4: nextstate = S0; //Muy probablemente sea innecesario
+            S4: nextstate = S0; 
             default: nextstate = S0;
         endcase
         
