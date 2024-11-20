@@ -10,7 +10,10 @@ module module_Debounce (
     // Proceso secuencial para desplazar los bits de la fila en cada flanco positivo del reloj
     always @(posedge clk) begin
         filas_reg <= {filas_in, filas_reg[15:4]}; // Desplaza los bits y añade filas_in en los 4 MSB
+        
     end
+
+
 
     // Lógica combinacional para determinar si la fila está estabilizada
     always_comb begin

@@ -6,20 +6,20 @@ module module_dato (
     input logic [1 : 0] dato_codc_i,
     input logic [1 : 0] dato_codf_i,
 
-    output logic signo_o,
+    //output logic signo_o,
     output logic [3 : 0] dato_o //Numero en binario de la tecla presionada
     
 );
 
     logic [3 : 0] pos; //Numero de posicion de la tecla
-    logic signo;
-    logic [3 : 0] dato = 4'd15; //para identificar errores
+    //logic signo;
+    logic [3 : 0] dato; //para identificar errores
 
     always_ff @( posedge clk ) begin 
 
         if (!rst) begin
             pos <= 4'd14; //para identificar errores
-            signo <= 0;
+            //signo <= 0;
         end
 
         else if (!dato_listo_i) begin
@@ -47,11 +47,11 @@ module module_dato (
                 9 : dato = 4'd6;
                 10 : dato = 4'd9;
                 7 : dato = 4'd0;
-                12 : signo = 1;
-                default: dato = 4'd15; // Indica error en la logica secuencial
+                //12 : signo = 1;
+                default: dato = dato; // mantiene el valor actual
             endcase
     end
     assign dato_o = dato; //Se niega unicamente para probarlo con los leds de la fpga
-    assign signo_o = signo;
+    //assign signo_o = signo;
 
 endmodule

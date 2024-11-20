@@ -11,20 +11,23 @@ module top(
     input logic reset,
     input logic [3:0] key_in,      // Entrada del teclado sin debounce
     input logic dat_ready, 
+    input logic signo,
 
+
+    output logic data_available,
     output logic [3 : 0] columna_o, //Señal barrido de columnas 
+    output logic [7:0] numero1_o, numero2_o,
+    output logic [3:0] dato_o,
+    output logic valid,
     output logic [6 : 0] u_display_segments,
     output logic [3 : 0] u_display_select,
     output logic u_mult_sign
 );
     //-------Variables temporales para el teclado:
-    logic prd_out, data_available, signo;  // Salida del divisor de frecuencia, señal de salida del debounce y señal de signo
+    logic prd_out;  // Salida del divisor de frecuencia
     logic [1:0] dato_codc;        // Salida codificada de columna y salida del contador de 2 bits
     logic [1:0] dato_codf;        // Salida codificada de fila
-    logic [3:0] dato_o;     // Valor binario de la tecla presionada. Convertir a señal interna
-    logic [7:0] numero1, numero2, 
-    logic valid,
-
+   
 
     //-------Variables temporales para el multiplicador:
     logic u_load_M; 
@@ -79,7 +82,7 @@ module top(
         .dato_listo_i (data_available),
         .dato_codc_i (dato_codc),
         .dato_codf_i (dato_codf),
-        .signo_o (signo),
+        //.signo_o (signo),
         .dato_o (dato_o)
     );
 
