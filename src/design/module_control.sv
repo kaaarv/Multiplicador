@@ -12,8 +12,8 @@ module module_control (
     input logic dat_ready, //Definir en los constr
     input logic [3:0] dato,
     input logic signo,
-    output logic [7:0] numero1, numero2,
-    output logic valid, signo1, signo2 
+    output logic [7:0] numero1_o, numero2_o,
+    output logic valid
 );
 
     typedef enum logic [3:0] {S0, S1, S2, S3, S4} statetype;
@@ -21,6 +21,8 @@ module module_control (
 
     //S. Internas 
     logic [3:0] unidades1, unidades2, decenas1, decenas2;
+    logic [7:0] numero1, numero2;
+    logic signo1, signo2; 
 
     //Redistro de estados
     always_ff @(posedge clk or negedge rst) begin
@@ -93,7 +95,14 @@ module module_control (
                 signo2 = 0;
             end
         endcase
-        
     end
+
+   
+    always_comb begin
+        numero1_o = (signo1) ? ~numero1 + 1 : numero1; 
+        numero2_o = (signo2) ? ~numero2 + 1 : numero2; 
+
+    end
+
 
 endmodule

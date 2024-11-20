@@ -18,11 +18,9 @@ module module_control_tb;
         .dat_ready(dat_ready),
         .dato(dato),
         .signo(signo),
-        .numero1(numero1),
-        .numero2(numero2),
-        .valid(valid),
-        .signo1(signo1),
-        .signo2(signo2)
+        .numero1_o(numero1),
+        .numero2_o(numero2),
+        .valid(valid)
     );
 
     // Generador de reloj
@@ -43,22 +41,22 @@ module module_control_tb;
 
         // Secuencia de entrada
         @(posedge clk);
-        #1 dato = 4'b1001; signo = 0; dat_ready = 1; // Decenas del primer número
+        #1 dato = 4'b0000; signo = 0; dat_ready = 1; // Decenas del primer número
         @(posedge clk);
         #1 dat_ready = 0; // Desactiva dat_ready temporalmente
 
         @(posedge clk);
-        #1 dato = 4'b1001; signo = 0; dat_ready = 1; // Unidades del primer número
+        #1 dato = 4'b0111; signo = 0; dat_ready = 1; // Unidades del primer número
         @(posedge clk);
         #1 dat_ready = 0;
 
         @(posedge clk);
-        #1 dato = 4'b0001; signo = 1; dat_ready = 1; // Decenas del segundo número
+        #1 dato = 4'b0000; signo = 1; dat_ready = 1; // Decenas del segundo número
         @(posedge clk);
         #1 dat_ready = 0;
 
         @(posedge clk);
-        #1 dato = 4'b0101; signo = 0; dat_ready = 1; // Unidades del segundo número
+        #1 dato = 4'b0111; signo = 0; dat_ready = 1; // Unidades del segundo número
         @(posedge clk);
         #1 dat_ready = 0;
 
@@ -66,8 +64,14 @@ module module_control_tb;
         wait(valid == 1);
 
         // Muestra resultados
-        $display("Numero 1 completo: %0d, Signo: %0s", numero1, (signo1 ? "-" : "+"));
-        $display("Numero 2 completo: %0d, Signo: %0s", numero2, (signo2 ? "-" : "+"));
+        //$display("Numero 1 completo: %0d, Signo: %s", numero1, (signo1 ? "-" : "+"));
+        //$display("Numero 2 completo: %0d, Signo: %s", numero2, (signo2 ? "-" : "+"));
+
+         // Muestra resultados en binario (sin complemento a 2)
+        $display("Numero 1 en complemento a 2: %08b", numero1);
+        $display("Numero 2 en complemento a 2: %08b", numero2);
+
+        
 
         // Finaliza simulación
         #10;
@@ -80,3 +84,4 @@ module module_control_tb;
     end
 
 endmodule
+
