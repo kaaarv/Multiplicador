@@ -9,11 +9,21 @@
 module top(
     input logic clk,
     input logic reset,
-    output logic u_mult_sign,
+    input logic [3:0] key_in,      // Entrada del teclado sin debounce
+    input logic dat_ready, 
+
+    output logic [3 : 0] columna_o, //Señal barrido de columnas 
     output logic [6 : 0] u_display_segments,
-    output logic [3 : 0] u_display_select
+    output logic [3 : 0] u_display_select,
+    output logic u_mult_sign
 );
     //-------Variables temporales para el teclado:
+    logic prd_out, data_available, signo;  // Salida del divisor de frecuencia, señal de salida del debounce y señal de signo
+    logic [1:0] dato_codc;        // Salida codificada de columna y salida del contador de 2 bits
+    logic [1:0] dato_codf;        // Salida codificada de fila
+    logic [3:0] dato_o;     // Valor binario de la tecla presionada. Convertir a señal interna
+    logic [7:0] numero1, numero2, 
+    logic valid,
 
 
     //-------Variables temporales para el multiplicador:
@@ -37,13 +47,61 @@ module top(
     //--------------------------------------------------------//
 
     //-------Instancia de los módulos del teclado:
+    module_divisor #(.COUNT(13500)) divisor (
+        .clk(clk),
+        .rst(reset),
+        .prd_out(prd_out)
+    );
+
+    module_cont_2b contador (
+        .clk (prd_out),
+        .rst (reset),
+        .stop (data_available),
+        .cont_out(dato_codc)
+    );
+
+    module_keypress keypress (
+        .dato_codc_i (dato_codc),
+        .posf_i (key_in),
+        .dato_codf_o (dato_codf),
+        .columna_o (columna_o)
+    );
+
+    module_Debounce debounce (
+        .clk (clk),
+        .filas_in (key_in),
+        .enable (data_available)
+    );
+
+    module_dato dato (
+        .clk (clk),
+        .rst (reset),
+        .dato_listo_i (data_available),
+        .dato_codc_i (dato_codc),
+        .dato_codf_i (dato_codf),
+        .signo_o (signo),
+        .dato_o (dato_o)
+    );
+
+    module_control control (
+        .clk (clk),
+        .rst (reset),
+        .dat_ready (dat_ready),
+        .dato (dato_o),
+        .signo (signo),
+        .numero1_o (numero1),
+        .numero2_o (numero2),
+        .valid (valid)
+    );
+
+
 
 
     //-------Instancia de los módulos del multiplicador:
     multiplier_FSM u_multiplier_FSM(
         .clk(clk),
         .reset(reset),
-        .valid(),                    // SEÑAL DE CONTROL DESDE EL TECLADO O SU FSM          <<<
+        .valid(valid),                    // SEÑAL DE CONTROL DESDE EL TECLADO O SU FSM          <<<
         .Qo_Qprev(u_Qo_Qprev),       // SEÑAL DESDE EL MULTIPLICADOR
         .load_M(u_load_M),           // SEÑAL HACIA EL MULTIPLICADOR
         .load_Q(u_load_Q),           // SEÑAL HACIA EL MULTIPLICADOR
@@ -59,8 +117,8 @@ module top(
         .load_Q(u_load_Q),           // SEÑAL DESDE SU FSM
         .load_add(u_load_add),       // SEÑAL DESDE SU FSM
         .shift_all(u_shift_all),     // SEÑAL DESDE SU FSM
-        .num_1(),                    // NÚMERO A MULTIPLICAR                                <<<
-        .num_2(),                    // NÚMERO A MULTIPLICAR                                <<<
+        .num_1(numero1),                    // NÚMERO A MULTIPLICAR                                <<<
+        .num_2(numero2),                    // NÚMERO A MULTIPLICAR                                <<<
         .Qo_Qprev(u_Qo_Qprev),       // SEÑAL HACIA SU FSM
         .mult_result(u_mult_result)  // RESULTADO (HACIA SIGN_MAGNITUDE)
     );
