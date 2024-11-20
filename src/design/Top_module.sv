@@ -6,10 +6,15 @@ module Top_module (
     input logic clk,               // Reloj principal
     input logic rst,               // Reset global
     input logic [3:0] key_in,      // Entrada del teclado sin debounce
+    input logic dat_ready,         //Botón para el control de la FSM
+    input logic signo,
+
 
     output logic data_available,    // Señal que indica que el dato está listo
-    output logic [3 : 0] columna_o, //Señal barrido de columnas 
-    output logic [3:0] dato_o     // Valor binario de la tecla presionada. Convertir a señal interna
+    output logic [3 : 0] columna_o, //Señal barrido de columnas
+    output logic [7:0] numero1_o, numero2_o,
+    output logic [3:0] dato_o,     // Valor binario de la tecla presionada.
+    output logic valid
     
 );
 
@@ -17,6 +22,8 @@ module Top_module (
     logic prd_out;                // Salida del divisor de frecuencia
     logic [1:0] dato_codc;        // Salida codificada de columna y salida del contador de 2 bits
     logic [1:0] dato_codf;        // Salida codificada de fila
+    //logic signo;
+
 
     // Instancia del divisor de frecuencia
     module_divisor #(.COUNT(13500)) divisor (
@@ -51,10 +58,19 @@ module Top_module (
         .dato_listo_i (data_available),
         .dato_codc_i (dato_codc),
         .dato_codf_i (dato_codf),
+        //.signo_o (signo),
         .dato_o (dato_o)
     );
 
-
-    //Modulo de flujo de datos (FSM)
+    module_control control (
+        .clk (clk),
+        .rst (rst),
+        .dat_ready (dat_ready),
+        .dato (dato_o),
+        .signo (signo),
+        .numero1_o (numero1_o),
+        .numero2_o (numero2_o),
+        .valid (valid)
+    );
 
 endmodule
