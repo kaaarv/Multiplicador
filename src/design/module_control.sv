@@ -65,6 +65,7 @@ module module_control (
 
 // Lógica de salida de la FSM
 always_comb begin
+    valid = 0;
     case (state)
         S0: begin
             valid = 0;

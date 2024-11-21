@@ -90,10 +90,10 @@ module Top_module_tb;
     end
 
     // Monitoreo de salidas
-    //initial begin
-      //  $monitor("Time=%0t | rst=%b | key_in=%b | data_available=%b | dato_o=%h",
-        //         $time, rst, key_in, data_available, dato_o);
-    //end
+    initial begin
+        $monitor("Time=%0t | rst=%b | key_in=%b | data_available=%b | dato_o=%h",
+                 $time, rst, key_in, data_available, dato_o);
+    end
 
     initial begin
         $dumpfile("Top_module_tb.vcd");
