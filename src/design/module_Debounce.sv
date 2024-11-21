@@ -1,3 +1,11 @@
+// ------------Tecnológico de Costa Rica-----------
+// Escuela de Ingeniería Electrónica: Diseño Lógico
+
+// Subsistema de captura de datos
+// Pablo Elizondo Espinoza
+// Eduardo Tencio Solano
+// Karina Quiros Avila
+
 module module_Debounce (
     input logic clk,               
     input logic [3:0] filas_in,    // Entrada de 4 bits (información sobre la fila)
