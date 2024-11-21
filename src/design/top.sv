@@ -12,27 +12,21 @@ module top(
     input logic [3 : 0] key_in, 
     input logic dat_ready, 
     input logic signo,
-
     output logic [6 : 0] u_display_segments,
     output logic [3 : 0] u_display_select,
     output logic u_mult_sign,
-
-    //output logic data_available, // <-------------
-    output logic [3 : 0] columna_o, //Señal barrido de columnas // <---------
-    output logic [7 : 0] numero1_o, numero2_o, // <-------
-    //output logic [3 : 0] dato_o, // <------
-    output logic valid, u_mult_ready,
-    output logic [15 : 0] u_mult_result// < ----
+    output logic [3 : 0] columna_o, 
+    output logic [15 : 0] u_mult_result
 );
     //-------Variables temporales para el teclado:
-    logic prd_out;  // Salida del divisor de frecuencia
-    logic [1:0] dato_codc;        // Salida codificada de columna y salida del contador de 2 bits
-    logic [1:0] dato_codf;        // Salida codificada de fila
+    logic prd_out; 
+    logic [1:0] dato_codc;      
+    logic [1:0] dato_codf;     
     logic data_available;
-    //logic [7 : 0] numero1_o;
-    //logic [7 : 0] numero2_o;
+    logic [7 : 0] numero1_o;
+    logic [7 : 0] numero2_o;
     logic [3 : 0] dato_o;
-    //logic valid;
+    logic valid;
    
 
     //-------Variables temporales para el multiplicador:
@@ -40,9 +34,8 @@ module top(
     logic u_load_Q;
     logic u_load_add;
     logic u_shift_all;
-    //logic u_mult_ready;
+    logic u_mult_ready;
     logic [1 : 0] u_Qo_Qprev;
-    // logic [15 : 0] u_mult_result;
 
 
     //-------Variables temporales para los displays:
@@ -108,7 +101,7 @@ module top(
     multiplier_FSM u_multiplier_FSM(
         .clk(clk),
         .reset(reset),
-        .valid(valid),                    // SEÑAL DE CONTROL DESDE EL TECLADO O SU FSM          <<<
+        .valid(valid),               // SEÑAL DE CONTROL DESDE EL TECLADO O SU FSM          <<<
         .Qo_Qprev(u_Qo_Qprev),       // SEÑAL DESDE EL MULTIPLICADOR
         .load_M(u_load_M),           // SEÑAL HACIA EL MULTIPLICADOR
         .load_Q(u_load_Q),           // SEÑAL HACIA EL MULTIPLICADOR
@@ -124,8 +117,8 @@ module top(
         .load_Q(u_load_Q),           // SEÑAL DESDE SU FSM
         .load_add(u_load_add),       // SEÑAL DESDE SU FSM
         .shift_all(u_shift_all),     // SEÑAL DESDE SU FSM
-        .num_1(numero1_o),                    // NÚMERO A MULTIPLICAR                                <<<
-        .num_2(numero2_o),                    // NÚMERO A MULTIPLICAR                                <<<
+        .num_1(numero1_o),           // NÚMERO A MULTIPLICAR                                <<<
+        .num_2(numero2_o),           // NÚMERO A MULTIPLICAR                                <<<
         .Qo_Qprev(u_Qo_Qprev),       // SEÑAL HACIA SU FSM
         .mult_result(u_mult_result)  // RESULTADO (HACIA SIGN_MAGNITUDE)
     );
