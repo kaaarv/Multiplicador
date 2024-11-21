@@ -1,6 +1,12 @@
-`timescale 1 ns / 100 ps
+// ------------Tecnológico de Costa Rica-----------
+// Escuela de Ingeniería Electrónica: Diseño Lógico
 
-//Se tiene que añadir el modulo de control y la señal de signo
+// Subsistema de captura de datos
+// Pablo Elizondo Espinoza
+// Eduardo Tencio Solano
+// Karina Quiros Avila
+
+`timescale 1 ns / 100 ps
 
 module Top_module (
     input logic clk,               // Reloj principal
