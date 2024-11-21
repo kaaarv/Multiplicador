@@ -1,3 +1,12 @@
+// ------------Tecnológico de Costa Rica-----------
+// Escuela de Ingeniería Electrónica: Diseño Lógico
+
+// Subsistema de captura de datos
+// Pablo Elizondo Espinoza
+// Eduardo Tencio Solano
+// Karina Quiros Avila
+
+
 //Resumen de estados:
 // Estado S0: Captura las decenas del primer número y asigna el signo
 // Estado S1: Captura las unidades del primer número
@@ -18,7 +27,6 @@ module module_control (
     typedef enum logic [2:0] {S0, S1, S2, S3, S4} statetype;
     statetype state, nextstate;
 
-    // Señales internas
     logic [3:0] unidades1, unidades2, decenas1, decenas2;
     logic [7:0] numero1, numero2;
     logic signo1, signo2;
@@ -93,6 +101,11 @@ always_comb begin
             valid = 1;
             numero1 = (decenas1 << 3) + (decenas1 << 1) + unidades1;
             numero2 = (decenas2 << 3) + (decenas2 << 1) + unidades2;
+        end
+
+        default: begin
+            unidades1 = 0;
+
         end
     endcase
 end
