@@ -17,8 +17,8 @@ module display_code(
     logic [1 : 0] current_display = 2'b0;         
     logic [19 : 0] refresh_counter = 19'b0;     
 
-    always_ff @(posedge clk or posedge reset) begin
-        if (reset) begin
+    always_ff @(posedge clk or negedge reset) begin
+        if (!reset) begin
             refresh_counter <= 0;
             current_display <= 0;
         end else if(valid_BCD)begin

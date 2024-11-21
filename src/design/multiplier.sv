@@ -25,8 +25,8 @@ module multiplier(
     logic [7 : 0] LQ;
     logic Q_prev;
 
-    always_ff @(posedge clk or posedge reset) begin
-        if(reset) begin
+    always_ff @(posedge clk or negedge reset) begin
+        if(!reset) begin
             M <= 0;
         end else if(load_M) begin
             M <= num_1;
@@ -45,8 +45,8 @@ module multiplier(
         end
     end
 
-    always_ff @(posedge clk or posedge reset) begin
-        if(reset) begin
+    always_ff @(posedge clk or negedge reset) begin
+        if(!reset) begin
             shift <= 0;
         end else if(shift_all) begin
             shift <= $signed(shift) >>> 1;
@@ -60,8 +60,8 @@ module multiplier(
         end
     end
 
-    always_ff @(posedge clk or posedge reset) begin
-        if(reset) begin
+    always_ff @(posedge clk or negedge reset) begin
+        if(!reset) begin
             HQ <= 0;
             LQ <= 0;
             Q_prev <= 0;

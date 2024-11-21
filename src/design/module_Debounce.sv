@@ -16,7 +16,7 @@ module module_Debounce (
 
 
     // Lógica combinacional para determinar si la fila está estabilizada
-    always_comb begin
+    always_ff @(posedge clk) begin
         enable = (filas_reg[15:12] == filas_reg[11:8]) &&
                  (filas_reg[11:8] == filas_reg[7:4]) &&
                  (filas_reg[7:4] == filas_reg[3:0]);

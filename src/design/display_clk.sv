@@ -15,7 +15,7 @@ module display_clk(
     reg [10:0] contador = 0;
     
     always @ (posedge clk)begin
-        if(reset) begin
+        if(!reset) begin
             contador <= 0;
         end else if(contador == divisor) begin
             contador <= 0;
@@ -26,7 +26,7 @@ module display_clk(
     
     // Divisor de reloj
     always @(posedge clk) begin
-        if (reset) begin
+        if (!reset) begin
             clk_display <= 0;
         end else begin
             if (contador == divisor) begin

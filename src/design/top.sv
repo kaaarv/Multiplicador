@@ -21,7 +21,8 @@ module top(
     output logic [3 : 0] columna_o, //Señal barrido de columnas // <---------
     output logic [7 : 0] numero1_o, numero2_o, // <-------
     //output logic [3 : 0] dato_o, // <------
-    output logic valid, u_mult_ready// < ----
+    output logic valid, u_mult_ready,
+    output logic [15 : 0] u_mult_result// < ----
 );
     //-------Variables temporales para el teclado:
     logic prd_out;  // Salida del divisor de frecuencia
@@ -41,7 +42,7 @@ module top(
     logic u_shift_all;
     //logic u_mult_ready;
     logic [1 : 0] u_Qo_Qprev;
-    logic [15 : 0] u_mult_result;
+    // logic [15 : 0] u_mult_result;
 
 
     //-------Variables temporales para los displays:

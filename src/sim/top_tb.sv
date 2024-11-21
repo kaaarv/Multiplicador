@@ -25,6 +25,7 @@ module Top_module_tb;
     logic [7:0] numero1_o, numero2_o; // Se agregan las señales de los números
     logic valid; // Se agrega la señal valid
     logic u_mult_ready; // Se agrega la señal de salida u_mult_ready
+    logic [15:0] u_mult_result; // Nueva señal para el resultado del multiplicador
 
     // Instancia del módulo `top`
     top DUT (
@@ -40,7 +41,8 @@ module Top_module_tb;
         .numero1_o(numero1_o),
         .numero2_o(numero2_o),
         .valid(valid),  // Conexión de la señal valid
-        .u_mult_ready(u_mult_ready)  // Conexión de la señal u_mult_ready
+        .u_mult_ready(u_mult_ready),  // Conexión de la señal u_mult_ready
+        .u_mult_result(u_mult_result)  // Nueva conexión para el resultado
     );
 
     // Generación de reloj principal a 27 MHz
@@ -58,7 +60,8 @@ module Top_module_tb;
         key_in = 4'b1111; // Sin teclas presionadas al inicio
         #20000; 
         // Activación de reset
-        #10000 rst = 1;
+        rst = 1;
+        #5;
         
         // Primera tecla presionada - Fila 1
         key_in = 4'b1110;  // Simula la activación de la fila 1
@@ -90,17 +93,17 @@ module Top_module_tb;
         dat_ready = 1'b1;
         #400000;
         dat_ready = 1'b0;
-        #200000;            // Espera de tiempo para procesar
+        #20;            // Espera de tiempo para procesar
 
         // Finalizar simulación
-        # 16670000;
+        #16670000;
         $finish;
     end
 
     // Monitoreo de salidas
     initial begin
-        $monitor("Time=%0t | key_in=%b | u_display_segments=%b | u_display_select=%b | u_mult_sign=%b | columna_o=%b | valid=%b | numero1_o=%b | numero2_o=%b | u_mult_ready=%b",
-                 $time, key_in, u_display_segments, u_display_select, u_mult_sign, columna_o, valid, numero1_o, numero2_o, u_mult_ready);
+        $monitor("Time=%0t | key_in=%b | u_display_segments=%b | u_display_select=%b | u_mult_sign=%b | columna_o=%b | valid=%b | numero1_o=%b | numero2_o=%b | u_mult_ready=%b | u_mult_result=%d",
+                 $time, key_in, u_display_segments, u_display_select, u_mult_sign, columna_o, valid, numero1_o, numero2_o, u_mult_ready, u_mult_result);
     end
 
     initial begin

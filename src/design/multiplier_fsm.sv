@@ -30,16 +30,16 @@ module multiplier_FSM(
     } state_t;
     state_t current_state, next_state;
 
-    always_ff @(posedge clk or posedge reset) begin
-        if(reset) begin
+    always_ff @(posedge clk or negedge reset) begin
+        if(!reset) begin
             current_state <= IDLE;
         end else begin
             current_state <= next_state;
         end
     end
 
-    always_ff @(posedge clk or posedge reset) begin
-        if(reset) begin
+    always_ff @(posedge clk or negedge reset) begin
+        if(!reset) begin
             counter <= 0;
         end else if(shift_all) begin
             counter <= counter + 1;
@@ -82,9 +82,9 @@ module multiplier_FSM(
             end
 
             SHIFT: begin
-                if( counter < 9) begin
+                if( counter < 8 && !ready) begin
                     next_state = DECIDE;
-                end else if(counter == 9) begin
+                end else if(counter == 8) begin
                     next_state = CHECK;
                 end else begin
                     next_state = current_state;
@@ -92,7 +92,7 @@ module multiplier_FSM(
             end
 
             CHECK: begin
-                if(reset) begin
+                if(!reset) begin
                     next_state = IDLE;
                 end else begin
                     next_state = current_state;

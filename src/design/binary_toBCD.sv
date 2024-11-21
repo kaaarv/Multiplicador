@@ -18,8 +18,8 @@ module binary_toBCD(
     logic ready;
     integer i;
 
-    always_ff @(posedge clk or posedge reset) begin
-        if (reset) begin
+    always_ff @(posedge clk or negedge reset) begin
+        if (!reset) begin
             shift_reg <= 32'b0;
             ready <= 1'b0;
         end else if (valid) begin

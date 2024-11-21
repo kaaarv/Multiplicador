@@ -15,8 +15,8 @@ module sign_magnitude(
     logic mult_sign;
     logic [15 : 0] mult_magnitude;
 
-    always_ff @(posedge clk or posedge reset) begin
-        if(reset) begin
+    always_ff @(posedge clk or negedge reset) begin
+        if(!reset) begin
             mult_sign <= 0;
             mult_magnitude <= 0;
             mult_sign_magnitude_ready <= 0;
