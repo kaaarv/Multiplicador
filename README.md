@@ -65,6 +65,9 @@ Todo lo anterior, se puede resumir en un digrama que interconecta todos los mód
 
 ### Máquina de estados para control en el teclado  
 
+La máquina de estados finitos que se muestra a continuación gestiona el procesamiento secuencial de dos números. Comienza en el estado S0, donde recibe las decenas y el signo del primer número, y luego pasa a los estados S1, S2, y S3 para capturar las unidades del primer número y las decenas y unidades del segundo número. Finalmente, en el estado S4, los números son ensamblados y validados. Una vez completado el proceso, el sistema regresa al estado S0 para iniciar el ciclo nuevamente.
+![image](https://github.com/user-attachments/assets/ae188b46-6626-4872-bf72-767bf81129df)
+
 ### Máquina de estados del multiplicador  
 El multiplicador cuenta con su propia máquina de estados que controla las operaciones que se van ejecutando conforme avanza el proceso. Tal como se mencionó anteriormente, se cuenta con 7 estados y 5 señales de control, según se detallan a continuación.  
 ![FSM_multiplicador](https://github.com/user-attachments/assets/0337ea92-20e2-4215-9126-b0c28856164e)  
