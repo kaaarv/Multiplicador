@@ -108,9 +108,12 @@ En el transcurso del tiempo, se registran diversos estados intermedios mientras 
 ![image](https://github.com/user-attachments/assets/d3ee4ec8-d578-42d5-abfb-6463565dd9e1)
 
 ## Análisis del consumo de recursos en la FPGA  
+
 La siguiente imagen muestra el consumo de recursos en la FPGA, se observa un uso altamente eficiente, con una ocupación mínima en comparación con la capacidad total del dispositivo. Por ejemplo, el consumo de slices es apenas del 1% (97 de 8640), lo que refleja una huella lógica reducida y deja un amplio margen para posibles expansiones o mejoras del diseño. Además, se observa que las entradas y salidas (IOB) utilizan solo 15 de los 274 pines disponibles, lo que equivale a un 5%. Esto sugiere que el diseño interactúa de manera moderada con periféricos externos, como displays o LEDs, manteniendo espacio para añadir futuras conexiones.
 
 El uso de bloques de lógica, como las tablas de búsqueda multiplexerizadas (MUX2_LUT), es también muy bajo: apenas 9 para LUT5, 4 para LUT6, 2 para LUT7 y ninguno para LUT8. Este bajo consumo indica que el diseño no depende de operaciones lógicas complejas, mostrando un enfoque eficiente en términos de recursos. Otros elementos, como la memoria RAM, osciladores internos, bloques PLL o registros ODDR, no se encuentran en uso, lo que refuerza la sencillez del proyecto y su independencia de módulos avanzados. Por otro lado, algunos recursos básicos, como el suministro de voltaje (VCC y GND) y el reinicio global (GSR), alcanzan el 100% de uso, lo cual es esperado y necesario para el funcionamiento del dispositivo. Esto, sin embargo, no afecta la disponibilidad de otros recursos clave para el desarrollo.
+
+![Imagen de WhatsApp 2024-11-22 a las 08 50 27_4c864716](https://github.com/user-attachments/assets/3c27334b-c9e7-42da-bc50-f59f7162a577)
 
 
 ## Reporte de velocidades y tiempos  
@@ -118,5 +121,7 @@ En cuanto a la velocidad de operación, los tiempos de respuesta del sistema dep
 
 Además, la sincronización de las señales, como las de control y de entrada/salida de datos, es un aspecto clave para mantener la estabilidad del sistema. La forma en que los registros de estado se actualizan en función de los flancos de reloj asegura que cada parte del sistema reaccione a tiempo, pero también hay que tener en cuenta que un retraso en un módulo puede propagar efectos adversos a otros, afectando el rendimiento general. Por otro lado, la eficiencia en términos de tiempo también está influenciada por las transiciones de estado y los ciclos de espera implementados en las máquinas de estados. En algunos casos, las operaciones de carga, desplazamiento y verificación de datos pueden involucrar múltiples ciclos de reloj, lo que podría generar latencia. Sin embargo, dado el bajo uso de los recursos y la implementación eficiente de los contadores, el impacto sobre el tiempo total de ejecución del sistema es relativamente bajo.
 
+## Problemas encontrados
+En la simulación, se verificó que el subsistema de lectura de datos y teclado, junto con los demás módulos, funcionaron correctamente. Las teclas presionadas en el teclado matricial fueron detectadas, decodificadas y procesadas conforme a lo esperado. El flujo de datos desde la entrada hasta el despliegue de los valores en los displays de 7 segmentos se llevó a cabo sin problemas, confirmando la funcionalidad de los módulos de lectura, multiplicación y despliegue.
 
-
+Sin embargo, al implementar el diseño en la FPGA y realizar pruebas en hardware, se observó que únicamente el subsistema de despliegue mostró un comportamiento funcional en el display de 7 segmentos. El teclado matricial no respondió como se esperaba, lo que indica un posible problema en la configuración de hardware, asignación de pines o señales de control asociadas al subsistema de lectura de datos. Este comportamiento sugiere la necesidad de una revisión en las conexiones físicas, parámetros de configuración del .cst, o incluso ajustes en el diseño del subsistema de teclado para asegurar que funcione correctamente en el entorno físico.
