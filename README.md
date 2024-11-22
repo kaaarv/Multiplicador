@@ -10,6 +10,7 @@ Karina Quiros Avila | 2021044233
 ## Descripción general de funcionamiento  
 Este proyecto consiste en el diseño de un multiplicador con signo que despliega los valores numéricos ingresados y el resultado final del proceso de multiplicación en displays de 7 segmentos. Consta de tres subsistemas principales que se interconectan entre si para cumplir con el objetivo final que es entregar un valor numérico como resultado de la multiplicación de dos valores decimales de hasta dos dígitos; a continuación, se detalla por separado el funcionamiento general de cada uno de los subsistemas.  
 ### Subsistema de lectura de datos y teclado  
+
 ### Subsistema de multiplicación  
 El subsistema de multiplicación se compone de dos módulos principalmente. Por un lado está el módulo que contiene toda la lógica de multiplicación regida por el algortimo de Booth, y también está la máquina de estados finitos que controla la lógica de multiplicación y lleva el registro de todo el proceso hasta que este se complete en su totalidad.  
 Primero se tiene al módulo con la lógica del algoritmo de Booth, este recibe las señales de control provenientes de la máquina de estados y los dos valores numéricos que se requieren multiplicar (en caso de un número negativo, este se procesa como un número binario en complemento a dos). Además, este módulo tiene como salidas un valor binario de dos bits que le permite a la máquina de estados verificar el comportamiento que está teniendo el proceso, así como el resultado final de la multiplicación.  
@@ -61,20 +62,41 @@ Todo lo anterior, se puede resumir en un digrama que interconecta todos los mód
 
 ## Diagramas de estados de las máquinas de estado  
 ### Máquina de estados principal  
+
 ### Máquina de estados para control en el teclado  
+
 ### Máquina de estados del multiplicador  
 El multiplicador cuenta con su propia máquina de estados que controla las operaciones que se van ejecutando conforme avanza el proceso. Tal como se mencionó anteriormente, se cuenta con 7 estados y 5 señales de control, según se detallan a continuación.  
 ![FSM_multiplicador](https://github.com/user-attachments/assets/0337ea92-20e2-4215-9126-b0c28856164e)  
 En el caso del estado DECIDE, este no asgina ningún valor a alguna señal de control, pues solo es un estado de paso para decidir si se aplica una suma, una resta o si directamente se hace un shift aritmético a la derecha.  
 
 
-## Análisis de una simulación completa del sistema  
+## Análisis de una simulación completa del sistema 
+
+A continuación, se presenta la simulación del teclado. Inicialmente, se presiona el número 1, que se puede observar en la señal dato[], y este se asigna a la señal decenas1[]. Después de un breve lapso, la señal dat_ready cambia a 1, indicando que el dato está listo. Luego, se presiona el número 5, que aparece en dato[] y se asigna a la señal unidades1[]. Tras un breve tiempo, dat_ready vuelve a marcar 1, confirmando que el número completo, almacenado en numero1_o, es 15.
+
+Posteriormente, se ingresa el segundo número siguiendo el mismo procedimiento. Primero, se presiona el número 8, visible en dato[], y este se asigna a la señal decenas2[]. Una vez que dat_ready cambia a 1, se confirma que el dato está listo. A continuación, se ingresa el número 3, que se observa en dato[] y se almacena en unidades2[]. Al completarse el proceso, el segundo número, almacenado en numero2_o, es 83.
+
+Finalmente, valid=1, indica que ambos números están almacenados. El sistema procede entonces a realizar la multiplicación correspondiente y muestra el resultado en el display. Cabe destacar que mientras se ingresa el segundo número, los datos del primero permanecen fijos en sus respectivas señales (decenas1[], unidades1[] y numero1_o) y no se ven afectados por el ingreso de un nuevo número, garantizando la integridad de la información.
+
+![image](https://github.com/user-attachments/assets/9a1b684a-f9ce-4026-bf12-96d512cccf29)
+
+Seguidamente, en la sigueinte simulación, se observa cómo el sistema comienza en un estado inicial donde no hay datos disponibles para procesar, lo cual se refleja con la salida u_mult_result=x. A medida que se ingresan los números 15 y 83 en las señales correspondientes, y una vez que ambas entradas están listas (Valid=1), el sistema inicia la operación de multiplicación.
+
+En el transcurso del tiempo, se registran diversos estados intermedios mientras se realizan las operaciones y se actualizan las señales. Finalmente, el sistema calcula correctamente el producto de 15 y 83, que resulta ser 1245. Este valor se muestra de manera estable en u_mult_result una vez que la operación ha concluido. Además, el resultado se despliega secuencialmente en los diferentes segmentos del display (u_display_segments) y selecciona cada posición activa del mismo a través de la señal u_display_select. Esto demuestra que el sistema no solo realiza el cálculo de manera precisa, sino que también asegura que el resultado se visualice correctamente, manteniendo la integridad de los datos a lo largo de todo el proceso.
+
+![image](https://github.com/user-attachments/assets/d3ee4ec8-d578-42d5-abfb-6463565dd9e1)
 
 ## Análisis del consumo de recursos en la FPGA  
+La siguiente imagen muestra el consumo de recursos en la FPGA, se observa un uso altamente eficiente, con una ocupación mínima en comparación con la capacidad total del dispositivo. Por ejemplo, el consumo de slices es apenas del 1% (97 de 8640), lo que refleja una huella lógica reducida y deja un amplio margen para posibles expansiones o mejoras del diseño. Además, se observa que las entradas y salidas (IOB) utilizan solo 15 de los 274 pines disponibles, lo que equivale a un 5%. Esto sugiere que el diseño interactúa de manera moderada con periféricos externos, como displays o LEDs, manteniendo espacio para añadir futuras conexiones.
+
+El uso de bloques de lógica, como las tablas de búsqueda multiplexerizadas (MUX2_LUT), es también muy bajo: apenas 9 para LUT5, 4 para LUT6, 2 para LUT7 y ninguno para LUT8. Este bajo consumo indica que el diseño no depende de operaciones lógicas complejas, mostrando un enfoque eficiente en términos de recursos. Otros elementos, como la memoria RAM, osciladores internos, bloques PLL o registros ODDR, no se encuentran en uso, lo que refuerza la sencillez del proyecto y su independencia de módulos avanzados. Por otro lado, algunos recursos básicos, como el suministro de voltaje (VCC y GND) y el reinicio global (GSR), alcanzan el 100% de uso, lo cual es esperado y necesario para el funcionamiento del dispositivo. Esto, sin embargo, no afecta la disponibilidad de otros recursos clave para el desarrollo.
+
 
 ## Reporte de velocidades y tiempos  
+En cuanto a la velocidad de operación, los tiempos de respuesta del sistema dependen en gran medida de la frecuencia de los relojes generados por los módulos de control, así como de los contadores y divisores de frecuencia implementados. Los divisores de reloj utilizados en diferentes partes del sistema permiten la creación de señales temporales que sincronizan las acciones de los módulos, asegurando que cada proceso se ejecute en el tiempo adecuado. Esto es crucial para evitar conflictos o desincronizaciones, especialmente en sistemas que requieren realizar operaciones secuenciales, como los procesos de cálculo o de cambio de estados en máquinas de estados finitos (FSM). Los tiempos de ciclo y la frecuencia de reloj también dependen de cómo se configuran los contadores, que a su vez determinan la duración de las señales de salida. Si bien la FPGA tiene una capacidad para operar a frecuencias de hasta 27 MHz, las señales temporales en el sistema pueden estar limitadas por los valores de los divisores de reloj, como los valores establecidos para obtener frecuencias más bajas, como 10 kHz, lo que optimiza el tiempo de respuesta en las operaciones que no requieren alta velocidad.
 
-## Reporte de problemas encontrados y soluciones aplicadas  
+Además, la sincronización de las señales, como las de control y de entrada/salida de datos, es un aspecto clave para mantener la estabilidad del sistema. La forma en que los registros de estado se actualizan en función de los flancos de reloj asegura que cada parte del sistema reaccione a tiempo, pero también hay que tener en cuenta que un retraso en un módulo puede propagar efectos adversos a otros, afectando el rendimiento general. Por otro lado, la eficiencia en términos de tiempo también está influenciada por las transiciones de estado y los ciclos de espera implementados en las máquinas de estados. En algunos casos, las operaciones de carga, desplazamiento y verificación de datos pueden involucrar múltiples ciclos de reloj, lo que podría generar latencia. Sin embargo, dado el bajo uso de los recursos y la implementación eficiente de los contadores, el impacto sobre el tiempo total de ejecución del sistema es relativamente bajo.
 
 
 
