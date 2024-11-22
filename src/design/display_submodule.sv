@@ -24,7 +24,7 @@ module display_multiplexer(
         end else if(valid_BCD)begin
             refresh_counter <= refresh_counter + 1;
 
-            if(refresh_counter == 167) begin
+            if(refresh_counter == 40) begin
                 refresh_counter <= 0;
 
                 if(current_display < 3) begin
