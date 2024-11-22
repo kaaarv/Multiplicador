@@ -80,8 +80,6 @@ Todo lo anterior, se puede resumir en un digrama que interconecta todos los mód
 
 
 ## Diagramas de estados de las máquinas de estado  
-### Máquina de estados principal  
-
 ### Máquina de estados para control en el teclado  
 
 La máquina de estados finitos que se muestra a continuación gestiona el procesamiento secuencial de dos números. Comienza en el estado S0, donde recibe las decenas y el signo del primer número, y luego pasa a los estados S1, S2, y S3 para capturar las unidades del primer número y las decenas y unidades del segundo número. Finalmente, en el estado S4, los números son ensamblados y validados. Una vez completado el proceso, el sistema regresa al estado S0 para iniciar el ciclo nuevamente.
